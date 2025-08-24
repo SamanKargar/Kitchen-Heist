@@ -18,9 +18,9 @@
                 {
                     "name": "Look",
                     "type": "Value",
-                    "id": "dec2ffcf-5d5a-4470-b1ac-7692cd841c5c",
+                    "id": "04fbec9d-73c0-4144-80dd-37074aed06b7",
                     "expectedControlType": "Vector2",
-                    "processors": "",
+                    "processors": "ScaleVector2(x=10,y=10)",
                     "interactions": "",
                     "initialStateCheck": true
                 }
@@ -149,7 +149,7 @@
                 },
                 {
                     "name": "",
-                    "id": "8e8fed8a-30cd-458d-a8b4-7bf827bf42de",
+                    "id": "28522489-b809-4dd9-a292-455a7eaadab2",
                     "path": "<Mouse>/delta",
                     "interactions": "",
                     "processors": "",
@@ -160,7 +160,7 @@
                 },
                 {
                     "name": "",
-                    "id": "136ba601-e146-4acc-9ddd-ff70d74dbb97",
+                    "id": "8ca86f76-ce8f-427b-a5ea-d1d2ac0cecfe",
                     "path": "<Gamepad>/rightStick",
                     "interactions": "",
                     "processors": "",

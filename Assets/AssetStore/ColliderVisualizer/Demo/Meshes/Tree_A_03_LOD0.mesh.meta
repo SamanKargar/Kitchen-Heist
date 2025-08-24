@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 22764f22f407cd34e811b1b774e73b25
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 318546
+  packageName: Collider Visualizer
+  packageVersion: 1.0.0
+  assetPath: Assets/ColliderVisualizer/Demo/Meshes/Tree_A_03_LOD0.mesh
+  uploadId: 752951

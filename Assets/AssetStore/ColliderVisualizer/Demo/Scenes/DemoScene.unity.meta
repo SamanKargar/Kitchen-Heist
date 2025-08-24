@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 51fd3c1eef686374aab8526b07df154a
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 318546
+  packageName: Collider Visualizer
+  packageVersion: 1.0.0
+  assetPath: Assets/ColliderVisualizer/Demo/Scenes/DemoScene.unity
+  uploadId: 752951

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 89fe5ba1a596f8e4c932836f31499b96
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 318546
+  packageName: Collider Visualizer
+  packageVersion: 1.0.0
+  assetPath: Assets/ColliderVisualizer/Demo/Materials/GroundMaterial.mat
+  uploadId: 752951

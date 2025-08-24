@@ -9,7 +9,7 @@ namespace _Game.Scripts.Managers {
 
         private void Awake() {
             if (Instance != null && Instance != this) {
-                Debug.LogError($"There is more than one GameEventsManager: {Instance} - {transform}");
+                Debug.LogError($"There's more than one GameEventsManager! {transform} - {Instance}");
                 Destroy(gameObject);
                 return;
             }

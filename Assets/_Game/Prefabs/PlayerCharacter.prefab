@@ -1044,7 +1044,9 @@ MonoBehaviour:
   groundLayers:
     serializedVersion: 2
     m_Bits: 1
-  movementSpeed: 3
+  maxMovementSpeed: 4
+  acceleration: 5
+  deceleration: 6
   rotationSpeed: 7.5
 --- !u!1 &5665953206392707592
 GameObject:

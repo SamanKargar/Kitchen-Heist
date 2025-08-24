@@ -1,4 +1,5 @@
-﻿using _Game.Scripts.Managers;
+﻿using _Game.Scripts.Characters.Core;
+using _Game.Scripts.Managers;
 using UnityEngine;
 
 namespace _Game.Scripts.Characters.PlayerCharacter {
@@ -12,22 +13,27 @@ namespace _Game.Scripts.Characters.PlayerCharacter {
         
         [Space(5)] [Header("Movement")] [Space(5)]
         
-        [SerializeField] private float movementSpeed = 3f;
-        [SerializeField] private float rotationSpeed = 5.5f;
+        [SerializeField] private float maxMovementSpeed = 3f;
+        [SerializeField] private float acceleration = 5f;
+        [SerializeField] private float deceleration = 6f;
+        [SerializeField] private float rotationSpeed = 7.5f;
         
         private bool _isGrounded;
         private float _verticalVelocity;
         private float _turnSmoothVelocity;
+        private float _currentSpeed;
         private Vector2 _movementInput;
         
         private Camera _camera;
-        private CharacterController _controller;
+        private CharacterController _characterController;
+        private AnimationController _animationController;
         
         private const float GRAVITY = -9.81f;
 
         private void Awake() {
             _camera = Camera.main;
-            _controller = GetComponent<CharacterController>();
+            _characterController = GetComponent<CharacterController>();
+            _animationController = GetComponentInChildren<AnimationController>();
         }
 
         private void OnEnable() {
@@ -64,30 +70,42 @@ namespace _Game.Scripts.Characters.PlayerCharacter {
         }
 
         private void HandleMovement() {
+            AdjustSpeed();
             GroundMovement();
             Turn();
+        }
+        
+        private void AdjustSpeed() {
+            _currentSpeed = _movementInput.magnitude > 0.1f ? 
+                Mathf.MoveTowards(_currentSpeed, maxMovementSpeed, acceleration * Time.deltaTime) : 
+                Mathf.MoveTowards(_currentSpeed, 0f, deceleration * Time.deltaTime);
         }
 
         private void GroundMovement() {
             Vector3 direction = new Vector3(_movementInput.x, 0, _movementInput.y);
-            
             direction = _camera.transform.TransformDirection(direction);
             direction.y = CalculateVerticalVelocity();
 
-            _controller.Move(direction * (movementSpeed * Time.deltaTime));
-
+            _characterController.Move(direction.normalized * (_currentSpeed * Time.deltaTime));
+            _animationController.PlayMoveAnimation(GetNormalizedSpeed());
         }
 
         private void Turn() {
-            if (!(Mathf.Abs(_movementInput.x) > 0) && !(Mathf.Abs(_movementInput.y) > 0)) return;
-            
-            Vector3 currentLookDirection = _controller.velocity.normalized;
-            currentLookDirection.y = 0;
+            if (_movementInput.sqrMagnitude < 0.01f) return;
 
-            currentLookDirection.Normalize();
-                
-            Quaternion targetRotation = Quaternion.LookRotation(currentLookDirection);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            Vector3 targetDirection = new Vector3(_movementInput.x, 0, _movementInput.y);
+            targetDirection = _camera.transform.TransformDirection(targetDirection);
+            targetDirection.y = 0;
+            targetDirection.Normalize();
+
+            if (targetDirection.sqrMagnitude > 0.01f) {
+                Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            }
+        }
+        
+        private float GetNormalizedSpeed() {
+            return Mathf.InverseLerp(0f, maxMovementSpeed, _currentSpeed);
         }
 
         private void OnDrawGizmosSelected() {

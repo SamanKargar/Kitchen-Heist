@@ -3,5 +3,7 @@
 
         public const string InteractableLayer = "Interactable";
         public const string PlayerTag = "Player";
+
+        public const string SpeedAnimationParameter = "Speed";
     }
 }

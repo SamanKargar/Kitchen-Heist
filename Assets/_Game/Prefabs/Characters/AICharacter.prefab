@@ -796,6 +796,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1287123855331376530}
   - component: {fileID: 2473386308635984850}
+  - component: {fileID: 9168909596098677607}
+  - component: {fileID: 8801378035548986937}
   m_Layer: 0
   m_Name: AICharacter
   m_TagString: Untagged
@@ -847,6 +849,41 @@ MonoBehaviour:
           m_Value1: 0
         Name: Self
         m_Value: {fileID: 4523124170169509903}
+--- !u!114 &9168909596098677607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4523124170169509903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75f7a1432b1e48cba91d3b338d63abdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Characters.AICharacter.AICharacter
+--- !u!114 &8801378035548986937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4523124170169509903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9092cd28217d7164b9d19dd526044b13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Characters.AICharacter.AISensor
+  distance: 5.5
+  angle: 50
+  height: 0.5
+  meshColor: {r: 0, g: 1, b: 1, a: 1}
+  scanFrequency: 30
+  detectableLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  occlusionLayer:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!1 &4783112599361693611
 GameObject:
   m_ObjectHideFlags: 0

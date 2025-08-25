@@ -11,7 +11,7 @@ namespace _Game.Scripts.InteractionSystem {
         
         private IInteractable _currentInteractable;
         
-        public InteractionComponent(Transform playerTransform, float castOffset, float interactionRange = 3f, int maxHits = 5) {
+        public InteractionComponent(Transform playerTransform, float castOffset, float interactionRange = 3f, int maxHits = 3) {
             _playerTransform = playerTransform;
             _castOffset = castOffset;
             _interactionRange = interactionRange;

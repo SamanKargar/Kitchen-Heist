@@ -69,6 +69,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Items.Interactables.Interactable_Biscuit
   interactionPrompt: Steal
   isInteractable: 1
+  interactionPromptRoot: {fileID: 0}
 --- !u!1 &7945455591776012076
 GameObject:
   m_ObjectHideFlags: 0

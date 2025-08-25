@@ -7,6 +7,7 @@ namespace _Game.Scripts.Triggers {
             if (other == null || !other.TryGetComponent(out Player player)) return;
 
             if (player.IsCarryingBiscuit()) {
+                player.DisableBiscuitObject();
                 Debug.Log("Game Won!");
             }
         }

@@ -102,7 +102,7 @@ namespace _Game.Scripts.Characters.PlayerCharacter {
             biscuitTransform.gameObject.SetActive(true);
         }
 
-        private void DisableBiscuitObject() {
+        public void DisableBiscuitObject() {
             biscuitTransform.gameObject.SetActive(false);
         }
 

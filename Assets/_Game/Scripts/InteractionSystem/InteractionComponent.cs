@@ -23,7 +23,6 @@ namespace _Game.Scripts.InteractionSystem {
             int hitCount = Physics.RaycastNonAlloc(ray, _hits, _interactionRange);
 
             _currentInteractable = null;
-            GameEventsManager.Instance.MiscEvents.OnInteractableUpdated(_currentInteractable);
             
             float closestDist = float.MaxValue;
             for (int i = 0; i < hitCount; i++) {
@@ -35,8 +34,6 @@ namespace _Game.Scripts.InteractionSystem {
                 
                 closestDist = distance;
                 _currentInteractable = interactable;
-                    
-                GameEventsManager.Instance.MiscEvents.OnInteractableUpdated(_currentInteractable);
             }
         }
 

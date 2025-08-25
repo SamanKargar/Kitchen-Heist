@@ -15,6 +15,10 @@ namespace _Game.Scripts.Characters.PlayerCharacter {
         [SerializeField] private float castOffset = 0.225f;
         [SerializeField] private float animationDuration = 0.75f;
 
+        [Space(6)] [Header("Interaction Settings")] [Space(6)]
+        
+        [SerializeField] private Transform biscuitTransform;
+
         private float _interactionUpdateTimer;
         
         private InteractionComponent _interactionComponent;
@@ -23,25 +27,31 @@ namespace _Game.Scripts.Characters.PlayerCharacter {
         private void Awake() {
             _interactionComponent = new InteractionComponent(transform, castOffset, interactionRange);
             canvasGroup.alpha = 0f;
+            
             interactionPromptRoot.SetActive(false);
+            DisableBiscuitObject();
         }
-
+        
         private void OnEnable() {
             GameEventsManager.Instance.InputEvents.OnInteractActionEvent += InputEvents_OnInteractActionEvent;
+            GameEventsManager.Instance.MiscEvents.OnBiscuitPickupEvent += MiscEvents_OnBiscuitPickupEvent;
         }
 
         private void OnDisable() {
             GameEventsManager.Instance.InputEvents.OnInteractActionEvent -= InputEvents_OnInteractActionEvent;
+            GameEventsManager.Instance.MiscEvents.OnBiscuitPickupEvent -= MiscEvents_OnBiscuitPickupEvent;
         }
         
+        private void Update() {
+            InteractionComponentUpdate();
+        }
+
+        #region - Interaction Component -
+
         private void InputEvents_OnInteractActionEvent() {
             if (!_interactionComponent.HasTarget()) return;
             
             _interactionComponent.TryInteract();
-        }
-
-        private void Update() {
-            InteractionComponentUpdate();
         }
 
         private void InteractionComponentUpdate() {
@@ -79,5 +89,23 @@ namespace _Game.Scripts.Characters.PlayerCharacter {
                     interactionPromptRoot.SetActive(false);
                 });
         }
+
+        #endregion
+
+        #region - Biscuit Pickup -
+        
+        private void MiscEvents_OnBiscuitPickupEvent() {
+            EnableBiscuitObject();
+        }
+
+        private void EnableBiscuitObject() {
+            biscuitTransform.gameObject.SetActive(true);
+        }
+
+        private void DisableBiscuitObject() {
+            biscuitTransform.gameObject.SetActive(false);
+        }
+
+        #endregion
     }
 }

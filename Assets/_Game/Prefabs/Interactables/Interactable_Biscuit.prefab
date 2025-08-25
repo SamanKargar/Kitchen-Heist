@@ -69,7 +69,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Items.Interactables.Interactable_Biscuit
   interactionPrompt: Steal
   isInteractable: 1
-  interactionPromptRoot: {fileID: 0}
 --- !u!1 &7945455591776012076
 GameObject:
   m_ObjectHideFlags: 0
@@ -82,7 +81,7 @@ GameObject:
   - component: {fileID: 3813758969578736133}
   - component: {fileID: 5368674012944827704}
   - component: {fileID: 441272901526993028}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cookies
   m_TagString: Untagged
   m_Icon: {fileID: 0}

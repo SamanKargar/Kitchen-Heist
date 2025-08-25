@@ -8,6 +8,8 @@ namespace _Game.Scripts.Events {
 
         public event Action OnInteractActionEvent;
 
+        public event Action OnJumpActionEvent;
+
         public void OnMoveAction(Vector2 inputValue) {
             OnMoveActionEvent?.Invoke(inputValue);
         }
@@ -18,6 +20,10 @@ namespace _Game.Scripts.Events {
 
         public void OnInteractAction() {
             OnInteractActionEvent?.Invoke();
+        }
+
+        public void OnJumpAction() {
+            OnJumpActionEvent?.Invoke();
         }
     }
 }

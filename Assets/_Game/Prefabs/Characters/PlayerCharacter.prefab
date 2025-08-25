@@ -1701,8 +1701,8 @@ MonoBehaviour:
   groundLayers:
     serializedVersion: 2
     m_Bits: 1
-  maxMovementSpeed: 2.25
-  acceleration: 5
+  maxMovementSpeed: 1.75
+  acceleration: 3
   deceleration: 5
   rotationSpeed: 7.5
 --- !u!114 &5507392927516640893

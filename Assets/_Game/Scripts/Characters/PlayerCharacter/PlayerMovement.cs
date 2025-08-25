@@ -82,11 +82,22 @@ namespace _Game.Scripts.Characters.PlayerCharacter {
         }
 
         private void GroundMovement() {
-            Vector3 direction = new Vector3(_movementInput.x, 0, _movementInput.y);
-            direction = _camera.transform.TransformDirection(direction);
-            direction.y = CalculateVerticalVelocity();
+            Vector3 inputDirection = new Vector3(_movementInput.x, 0, _movementInput.y);
+            Vector3 cameraForward = _camera.transform.forward;
+            cameraForward.y = 0f;
+            cameraForward.Normalize();
 
-            _characterController.Move(direction.normalized * (_currentSpeed * Time.deltaTime));
+            Vector3 camRight = _camera.transform.right;
+            camRight.y = 0f;
+            camRight.Normalize();
+
+            Vector3 moveDirection = cameraForward * inputDirection.z + camRight * inputDirection.x;
+            moveDirection.Normalize();
+
+            Vector3 velocity = moveDirection * _currentSpeed;
+            velocity.y = CalculateVerticalVelocity();
+
+            _characterController.Move(velocity * Time.deltaTime);
             _animationController.PlayMoveAnimation(GetNormalizedSpeed());
         }
 

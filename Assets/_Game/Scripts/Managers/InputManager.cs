@@ -40,6 +40,12 @@ namespace _Game.Scripts.Managers {
             GameEventsManager.Instance.InputEvents.OnLookAction(context.ReadValue<Vector2>());
         }
 
+        public void OnInteract(InputAction.CallbackContext context) {
+            if (context.performed) {
+                GameEventsManager.Instance.InputEvents.OnInteractAction();
+            }
+        }
+
         #endregion
 
         #region - UI Action Map -

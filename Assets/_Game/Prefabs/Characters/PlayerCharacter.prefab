@@ -1027,6 +1027,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 754bf9d4250345528e6fe594c43e1e9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Characters.PlayerCharacter.Player
+  interactionRange: 0.325
+  castOffset: 0.225
 --- !u!114 &8142259545282156038
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ namespace _Game.Scripts.Managers {
         public static GameEventsManager Instance { get; private set; }
 
         public InputEvents InputEvents;
+        public MiscEvents MiscEvents;
 
         private void Awake() {
             if (Instance != null && Instance != this) {
@@ -16,6 +17,7 @@ namespace _Game.Scripts.Managers {
 
             Instance = this;
             InputEvents = new InputEvents();
+            MiscEvents = new MiscEvents();
         }
     }
 }

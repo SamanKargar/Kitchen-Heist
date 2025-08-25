@@ -106,6 +106,10 @@ namespace _Game.Scripts.Characters.PlayerCharacter {
             biscuitTransform.gameObject.SetActive(false);
         }
 
+        public bool IsCarryingBiscuit() {
+            return biscuitTransform.gameObject.activeSelf;
+        }
+
         #endregion
     }
 }

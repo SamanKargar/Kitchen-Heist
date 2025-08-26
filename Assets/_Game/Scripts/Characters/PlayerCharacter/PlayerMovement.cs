@@ -21,6 +21,7 @@ namespace _Game.Scripts.Characters.PlayerCharacter {
         
         private bool _isGrounded;
         private bool _jumpButtonPressed;
+        private bool _canJump = true;
         private float _verticalVelocity;
         private float _turnSmoothVelocity;
         private float _currentSpeed;
@@ -41,11 +42,25 @@ namespace _Game.Scripts.Characters.PlayerCharacter {
         private void OnEnable() {
             GameEventsManager.Instance.InputEvents.OnMoveActionEvent += InputEvents_OnMoveActionEvent;
             GameEventsManager.Instance.InputEvents.OnJumpActionEvent += InputEvents_OnJumpActionEvent;
+            
+            GameEventsManager.Instance.MiscEvents.OnEnterHidingSpotEvent += MiscEvents_OnEnterHidingSpotEvent;
+            GameEventsManager.Instance.MiscEvents.OnExitHidingSpotEvent += MiscEvents_OnExitHidingSpotEvent;
         }
 
         private void OnDisable() {
             GameEventsManager.Instance.InputEvents.OnMoveActionEvent -= InputEvents_OnMoveActionEvent;
             GameEventsManager.Instance.InputEvents.OnJumpActionEvent -= InputEvents_OnJumpActionEvent;
+            
+            GameEventsManager.Instance.MiscEvents.OnEnterHidingSpotEvent -= MiscEvents_OnEnterHidingSpotEvent;
+            GameEventsManager.Instance.MiscEvents.OnExitHidingSpotEvent -= MiscEvents_OnExitHidingSpotEvent;
+        }
+        
+        private void MiscEvents_OnExitHidingSpotEvent() {
+            _canJump = true;
+        }
+
+        private void MiscEvents_OnEnterHidingSpotEvent() {
+            _canJump = false;
         }
         
         private void InputEvents_OnJumpActionEvent() {
@@ -71,9 +86,12 @@ namespace _Game.Scripts.Characters.PlayerCharacter {
                 if (_verticalVelocity < 0f)
                     _verticalVelocity = -2f;
 
-                if (_jumpButtonPressed) {
+                if (_jumpButtonPressed && _canJump) {
                     _jumpButtonPressed = false;
                     _verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * GRAVITY);
+                }
+                else if (!_canJump) {
+                    _jumpButtonPressed = false;
                 }
             }
             else {

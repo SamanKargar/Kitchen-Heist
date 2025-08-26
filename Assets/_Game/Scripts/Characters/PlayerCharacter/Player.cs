@@ -80,14 +80,17 @@ namespace _Game.Scripts.Characters.PlayerCharacter {
             interactionText.text = _interactionComponent.GetCurrentInteractable().GetInteractionPrompt();
             
             _fadeTween?.Kill();
-            _fadeTween = canvasGroup.DOFade(1f, animationDuration).SetEase(Ease.Flash);
+            _fadeTween = canvasGroup.DOFade(1f, animationDuration)
+                .SetEase(Ease.Flash)
+                .SetLink(gameObject);
         }
 
         private void HideUI() {
-            _fadeTween = canvasGroup.DOFade(0f, animationDuration).SetEase(Ease.Flash)
+            _fadeTween = canvasGroup.DOFade(0f, animationDuration)
+                .SetEase(Ease.Flash)
+                .SetLink(gameObject)
                 .OnComplete(() => {
                     interactionPromptRoot.SetActive(false);
-                    _fadeTween.Complete();
                 });
         }
 

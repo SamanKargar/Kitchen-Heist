@@ -17,8 +17,10 @@ namespace _Game.Scripts.Characters.PlayerCharacter {
         [SerializeField] private float acceleration = 5f;
         [SerializeField] private float deceleration = 6f;
         [SerializeField] private float rotationSpeed = 7.5f;
+        [SerializeField] private float jumpHeight = 1.5f;
         
         private bool _isGrounded;
+        private bool _jumpButtonPressed;
         private float _verticalVelocity;
         private float _turnSmoothVelocity;
         private float _currentSpeed;
@@ -38,10 +40,16 @@ namespace _Game.Scripts.Characters.PlayerCharacter {
 
         private void OnEnable() {
             GameEventsManager.Instance.InputEvents.OnMoveActionEvent += InputEvents_OnMoveActionEvent;
+            GameEventsManager.Instance.InputEvents.OnJumpActionEvent += InputEvents_OnJumpActionEvent;
         }
 
         private void OnDisable() {
             GameEventsManager.Instance.InputEvents.OnMoveActionEvent -= InputEvents_OnMoveActionEvent;
+            GameEventsManager.Instance.InputEvents.OnJumpActionEvent -= InputEvents_OnJumpActionEvent;
+        }
+        
+        private void InputEvents_OnJumpActionEvent() {
+            _jumpButtonPressed = true;
         }
         
         private void InputEvents_OnMoveActionEvent(Vector2 inputValue) {
@@ -60,7 +68,13 @@ namespace _Game.Scripts.Characters.PlayerCharacter {
 
         private float CalculateVerticalVelocity() {
             if (_isGrounded) {
-                _verticalVelocity = -2f;
+                if (_verticalVelocity < 0f)
+                    _verticalVelocity = -2f;
+
+                if (_jumpButtonPressed) {
+                    _jumpButtonPressed = false;
+                    _verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * GRAVITY);
+                }
             }
             else {
                 _verticalVelocity += GRAVITY * Time.deltaTime;

@@ -1705,6 +1705,7 @@ MonoBehaviour:
   acceleration: 3
   deceleration: 5
   rotationSpeed: 7.5
+  jumpHeight: 1
 --- !u!114 &5507392927516640893
 MonoBehaviour:
   m_ObjectHideFlags: 0

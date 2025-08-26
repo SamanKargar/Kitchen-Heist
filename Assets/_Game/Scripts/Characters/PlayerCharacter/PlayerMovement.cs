@@ -21,7 +21,7 @@ namespace _Game.Scripts.Characters.PlayerCharacter {
         
         private bool _isGrounded;
         private bool _jumpButtonPressed;
-        private bool _canJump = true;
+        private bool _isHiding;
         private float _verticalVelocity;
         private float _turnSmoothVelocity;
         private float _currentSpeed;
@@ -56,11 +56,11 @@ namespace _Game.Scripts.Characters.PlayerCharacter {
         }
         
         private void MiscEvents_OnExitHidingSpotEvent() {
-            _canJump = true;
+            _isHiding = false;
         }
 
         private void MiscEvents_OnEnterHidingSpotEvent() {
-            _canJump = false;
+            _isHiding = true;
         }
         
         private void InputEvents_OnJumpActionEvent() {
@@ -86,11 +86,11 @@ namespace _Game.Scripts.Characters.PlayerCharacter {
                 if (_verticalVelocity < 0f)
                     _verticalVelocity = -2f;
 
-                if (_jumpButtonPressed && _canJump) {
+                if (_jumpButtonPressed && !_isHiding) {
                     _jumpButtonPressed = false;
                     _verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * GRAVITY);
                 }
-                else if (!_canJump) {
+                else if (_isHiding) {
                     _jumpButtonPressed = false;
                 }
             }
@@ -134,7 +134,7 @@ namespace _Game.Scripts.Characters.PlayerCharacter {
         }
 
         private void Turn() {
-            if (_movementInput.sqrMagnitude < 0.01f) return;
+            if (_movementInput.sqrMagnitude < 0.01f || _isHiding) return;
 
             Vector3 targetDirection = new Vector3(_movementInput.x, 0, _movementInput.y);
             targetDirection = _camera.transform.TransformDirection(targetDirection);

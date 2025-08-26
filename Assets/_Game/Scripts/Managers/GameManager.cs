@@ -1,5 +1,6 @@
 ﻿using _Game.Scripts.Utils;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace _Game.Scripts.Managers {
     public class GameManager : MonoBehaviour {
@@ -15,6 +16,21 @@ namespace _Game.Scripts.Managers {
             Instance = this;
 
             UtilsClass.UpdateCursorState(false);
+        }
+
+        private void OnEnable() {
+            GameEventsManager.Instance.BehaviorEvents.OnTargetFoundEvent += BehaviorEvents_OnTargetFoundEvent;
+        }
+
+        private void OnDisable() {
+            GameEventsManager.Instance.BehaviorEvents.OnTargetFoundEvent -= BehaviorEvents_OnTargetFoundEvent;
+        }
+
+        private void BehaviorEvents_OnTargetFoundEvent() {
+            Debug.Log("Game Lost!");
+            UtilsClass.ExecuteAfterDelay(() => {
+                SceneManager.LoadScene(0);
+            }, 2f);
         }
     }
 }

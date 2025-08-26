@@ -87,6 +87,7 @@ namespace _Game.Scripts.Characters.PlayerCharacter {
             _fadeTween = canvasGroup.DOFade(0f, animationDuration).SetEase(Ease.Flash)
                 .OnComplete(() => {
                     interactionPromptRoot.SetActive(false);
+                    _fadeTween.Complete();
                 });
         }
 

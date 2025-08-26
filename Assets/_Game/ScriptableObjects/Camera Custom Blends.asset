@@ -16,7 +16,7 @@ MonoBehaviour:
   - From: CM_TPSCamera
     To: CM_FPSCamera
     Blend:
-      Style: 1
+      Style: 0
       Time: 0.5
       CustomCurve:
         serializedVersion: 2
@@ -27,7 +27,7 @@ MonoBehaviour:
   - From: CM_FPSCamera
     To: CM_TPSCamera
     Blend:
-      Style: 1
+      Style: 0
       Time: 0.5
       CustomCurve:
         serializedVersion: 2

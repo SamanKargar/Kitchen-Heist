@@ -43,12 +43,17 @@ namespace _Game.Scripts.Characters.AICharacter
 
         private void Scan()
         {
+            _detectedTarget = null;
             _count = Physics.OverlapSphereNonAlloc(transform.position, distance, _colliders, detectableLayer, QueryTriggerInteraction.Collide);
-            
+
             for (int i = 0; i < _count; i++)
             {
                 GameObject target = _colliders[i].gameObject;
-                _detectedTarget = IsInSight(target) ? target : null;
+                if (IsInSight(target))
+                {
+                    _detectedTarget = target;
+                    break;
+                }
             }
         }
 
@@ -62,30 +67,26 @@ namespace _Game.Scripts.Characters.AICharacter
         {
             Vector3 origin = transform.position;
             Vector3 destination = target.transform.position;
-            Vector3 direction = destination - origin;
 
-            if (direction.y < 0 || direction.y > height)
-                return false;
+            // Vertical check (ignore if too high/low)
+            float verticalOffset = Mathf.Abs(destination.y - origin.y);
+            if (verticalOffset > height) return false;
 
-            // Angle checking
-            direction.y = 0;
-            float deltaAngle = Vector3.Angle(direction, transform.forward);
-            if (deltaAngle > angle) {
-                return false;
-            }
-            
-            // Check distance if needed (optional, based on range)
-            float distanceToTarget = Vector3.Distance(origin, destination);
-            if (distanceToTarget > distance) {
-                return false;
-            }
-            
-            // Occlusion layer checking
-            origin.y += height / 2;
-            destination.y = origin.y;
-            if (Physics.Linecast(origin, destination, occlusionLayer)) {
-                return false;
-            }
+            // Direction & angle
+            Vector3 flatDirection = (destination - origin);
+            flatDirection.y = 0;
+            float deltaAngle = Vector3.Angle(flatDirection, transform.forward);
+            if (deltaAngle > angle) return false;
+
+            // Distance
+            float distanceToTarget = flatDirection.magnitude;
+            if (distanceToTarget > distance) return false;
+
+            // Occlusion check (raycast at mid-body height)
+            Vector3 rayOrigin = origin + Vector3.up * (height * 0.5f);
+            Vector3 rayDestination = destination + Vector3.up * 1.0f;
+
+            if (Physics.Linecast(rayOrigin, rayDestination, occlusionLayer)) return false;
 
             return true;
         }

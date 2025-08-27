@@ -1,8 +1,10 @@
-﻿using _Game.Scripts.Managers;
+﻿using System;
+using _Game.Scripts.Managers;
 using _Game.Scripts.Utils;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace _Game.Scripts.UI {
@@ -29,6 +31,11 @@ namespace _Game.Scripts.UI {
 
             containerRectTransform.anchoredPosition = new Vector2(containerRectTransform.anchoredPosition.x, containerHiddenYAnchor);
             rootObject.SetActive(false);
+            
+            restartButton.onClick.AddListener(OnClickRestartButton);
+            nextLevelButton.onClick.AddListener(OnClickNextLevelButton);
+            mainMenuButton.onClick.AddListener(OnClickMainMenuButton);
+            quitButton.onClick.AddListener(OnClickQuitButton);
         }
 
         private void OnEnable() {
@@ -42,10 +49,16 @@ namespace _Game.Scripts.UI {
         }
 
         private void GameEvents_OnGameLostEvent() {
+            UtilsClass.EnableUIActionMap();
+            UtilsClass.UpdateCursorState(true);
+            
             ShowUI(false);
         }
 
         private void GameEvents_OnGameWonEvent() {
+            UtilsClass.EnableUIActionMap();
+            UtilsClass.UpdateCursorState(true);
+            
             ShowUI(true);
         }
 
@@ -71,13 +84,34 @@ namespace _Game.Scripts.UI {
             }, 0.25f);
         }
 
-        private void HideUI() {
+        private void HideUI(Action onComplete) {
             _containerTween = containerRectTransform.DOAnchorPosY(containerHiddenYAnchor, animationDuration)
-                .SetEase(Ease.InOutBounce)
+                .SetEase(Ease.OutBounce)
                 .SetLink(containerObject)
                 .OnComplete(() => {
+                    onComplete.Invoke();
                     rootObject.SetActive(false);
                 });
+        }
+
+        private void OnClickRestartButton() {
+            HideUI(() => SceneManager.LoadScene(0));
+        }
+
+        private void OnClickNextLevelButton() {
+            HideUI(() => {
+                Debug.Log("Go Next Level");
+            });
+        }
+
+        private void OnClickMainMenuButton() {
+            HideUI(() => {
+                Debug.Log("Go Main Menu");
+            });
+        }
+
+        private void OnClickQuitButton() {
+            HideUI(Application.Quit);
         }
     }
 }

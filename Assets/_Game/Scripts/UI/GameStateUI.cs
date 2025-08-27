@@ -88,10 +88,7 @@ namespace _Game.Scripts.UI {
             _containerTween = containerRectTransform.DOAnchorPosY(containerHiddenYAnchor, animationDuration)
                 .SetEase(Ease.OutBounce)
                 .SetLink(containerObject)
-                .OnComplete(() => {
-                    onComplete.Invoke();
-                    rootObject.SetActive(false);
-                });
+                .OnComplete(onComplete.Invoke);
         }
 
         private void OnClickRestartButton() {

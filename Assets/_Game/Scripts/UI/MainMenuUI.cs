@@ -1,6 +1,8 @@
-﻿using _Game.Scripts.Utils;
+﻿using System.Collections.Generic;
+using _Game.Scripts.Utils;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace _Game.Scripts.UI {
@@ -22,12 +24,23 @@ namespace _Game.Scripts.UI {
         [SerializeField] private float fadeTweenDuration = 0.75f;
         [SerializeField] private float buttonTweenDuration = 0.75f;
         [SerializeField] private float buttonTweenStartTime = 0.35f;
+        [SerializeField] private float buttonScaleTweenDuration = 0.35f;
+        [SerializeField] private float buttonHorizontalTweenAmount = 5f;
 
         private CanvasGroup _canvasGroup;
+        
         private RectTransform _startButtonTransform;
         private RectTransform _levelsButtonTransform;
         private RectTransform _settingsButtonTransform;
         private RectTransform _quitButtonTransform;
+        
+        private EventTrigger _startButtonTrigger;
+        private EventTrigger _levelsButtonTrigger;
+        private EventTrigger _settingsButtonTrigger;
+        private EventTrigger _quitButtonTrigger;
+
+        private readonly Dictionary<GameObject, Tween> _moveTweens = new Dictionary<GameObject, Tween>();
+        private readonly Dictionary<GameObject, Tween> _scaleTweens = new Dictionary<GameObject, Tween>();
 
         private void Awake() {
             _canvasGroup = GetComponent<CanvasGroup>();
@@ -36,10 +49,20 @@ namespace _Game.Scripts.UI {
             _settingsButtonTransform = settingsButton.GetComponent<RectTransform>();
             _quitButtonTransform = quitButton.GetComponent<RectTransform>();
 
+            _startButtonTrigger = startButton.GetComponent<EventTrigger>();
+            _levelsButtonTrigger = levelsButton.GetComponent<EventTrigger>();
+            _settingsButtonTrigger = settingsButton.GetComponent<EventTrigger>();
+            _quitButtonTrigger = quitButton.GetComponent<EventTrigger>();
+
             startButton.enabled = false;
             levelsButton.enabled = false;
             settingsButton.enabled = false;
             quitButton.enabled = false;
+
+            _startButtonTrigger.enabled = false;
+            _levelsButtonTrigger.enabled = false;
+            _settingsButtonTrigger.enabled = false;
+            _quitButtonTrigger.enabled = false;
 
             _canvasGroup.alpha = 0f;
             headerObject.anchoredPosition = new Vector2(headerObject.anchoredPosition.x, headerHiddenYAnchor);
@@ -97,6 +120,43 @@ namespace _Game.Scripts.UI {
             levelsButton.enabled = true;
             settingsButton.enabled = true;
             quitButton.enabled = true;
+            
+            _startButtonTrigger.enabled = true;
+            _levelsButtonTrigger.enabled = true;
+            _settingsButtonTrigger.enabled = true;
+            _quitButtonTrigger.enabled = true;
+        }
+
+        public void OnHoverEnter(GameObject button) {
+            if (_moveTweens.TryGetValue(button, out Tween moveTween)) moveTween.Kill();
+            if (_scaleTweens.TryGetValue(button, out Tween scaleTween)) scaleTween.Kill();
+
+            _moveTweens[button] = button.transform.DOMoveX
+                    (button.transform.position.x + buttonHorizontalTweenAmount, buttonScaleTweenDuration)
+                .SetEase(Ease.OutQuad)
+                .SetLink(button);
+
+            _scaleTweens[button] = button.transform.DOScale(
+                    Vector3.one * 1.125f,
+                    buttonScaleTweenDuration)
+                .SetEase(Ease.OutQuad)
+                .SetLink(button);
+        }
+
+        public void OnHoverExit(GameObject button) {
+            if (_moveTweens.TryGetValue(button, out Tween moveTween)) moveTween.Kill();
+            if (_scaleTweens.TryGetValue(button, out Tween scaleTween)) scaleTween.Kill();
+
+            _moveTweens[button] = button.transform.DOMoveX
+                    (button.transform.position.x - buttonHorizontalTweenAmount, buttonScaleTweenDuration)
+                .SetEase(Ease.OutQuad)
+                .SetLink(button);
+
+            _scaleTweens[button] = button.transform.DOScale(
+                    Vector3.one,
+                    buttonScaleTweenDuration)
+                .SetEase(Ease.OutQuad)
+                .SetLink(button);
         }
     }
 }

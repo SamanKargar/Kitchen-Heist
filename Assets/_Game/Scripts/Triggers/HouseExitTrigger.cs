@@ -8,7 +8,6 @@ namespace _Game.Scripts.Triggers {
             if (other == null || !other.TryGetComponent(out Player player)) return;
 
             if (player.IsCarryingBiscuit()) {
-                player.DisableBiscuitObject();
                 GameEventsManager.Instance.GameEvents.OnGameWon();
             }
         }

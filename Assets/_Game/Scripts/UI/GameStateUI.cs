@@ -3,6 +3,7 @@ using _Game.Scripts.Utils;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace _Game.Scripts.UI {
     public class GameStateUI : MonoBehaviour {
@@ -11,8 +12,10 @@ namespace _Game.Scripts.UI {
         [SerializeField] private GameObject rootObject;
         [SerializeField] private GameObject containerObject;
         [SerializeField] private TextMeshProUGUI headerText;
-        [SerializeField] private GameObject gameWonButtonList;
-        [SerializeField] private GameObject gameLostButtonList;
+        [SerializeField] private Button restartButton;
+        [SerializeField] private Button nextLevelButton;
+        [SerializeField] private Button mainMenuButton;
+        [SerializeField] private Button quitButton;
 
         [SerializeField] private float containerVisibleYAnchor;
         [SerializeField] private float containerHiddenYAnchor = -800f;
@@ -26,8 +29,6 @@ namespace _Game.Scripts.UI {
 
             containerRectTransform.anchoredPosition = new Vector2(containerRectTransform.anchoredPosition.x, containerHiddenYAnchor);
             rootObject.SetActive(false);
-            gameWonButtonList.SetActive(false);
-            gameLostButtonList.SetActive(false);
         }
 
         private void OnEnable() {
@@ -53,13 +54,13 @@ namespace _Game.Scripts.UI {
 
             if (didWin) {
                 headerText.text = "You Won!";
-                gameWonButtonList.SetActive(true);
-                gameLostButtonList.SetActive(false);
+                nextLevelButton.gameObject.SetActive(true);
+                restartButton.gameObject.SetActive(false);
             }
             else {
                 headerText.text = "You Lost!";
-                gameLostButtonList.SetActive(true);
-                gameWonButtonList.SetActive(false);
+                nextLevelButton.gameObject.SetActive(false);
+                restartButton.gameObject.SetActive(true);
             }
             
             UtilsClass.ExecuteAfterDelay(() => {

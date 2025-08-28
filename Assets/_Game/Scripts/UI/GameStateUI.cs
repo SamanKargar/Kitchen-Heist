@@ -4,7 +4,6 @@ using _Game.Scripts.Utils;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace _Game.Scripts.UI {
@@ -92,7 +91,7 @@ namespace _Game.Scripts.UI {
         }
 
         private void OnClickRestartButton() {
-            HideUI(() => SceneManager.LoadScene(0));
+            HideUI(() => Loader.Load(Loader.Scene.PrototypingScene));
         }
 
         private void OnClickNextLevelButton() {
@@ -102,9 +101,7 @@ namespace _Game.Scripts.UI {
         }
 
         private void OnClickMainMenuButton() {
-            HideUI(() => {
-                Debug.Log("Go Main Menu");
-            });
+            HideUI(() => Loader.Load(Loader.Scene.MainMenu));
         }
 
         private void OnClickQuitButton() {

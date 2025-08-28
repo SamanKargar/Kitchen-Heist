@@ -3,7 +3,6 @@ using _Game.Scripts.Utils;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace _Game.Scripts.UI {
@@ -200,7 +199,7 @@ namespace _Game.Scripts.UI {
         #region - Button Click -
 
         private void OnStartButtonClick() {
-            SceneManager.LoadScene(sceneBuildIndex: 1);
+            Loader.Load(Loader.Scene.PrototypingScene);
         }
 
         private void OnLevelsButtonClick() {

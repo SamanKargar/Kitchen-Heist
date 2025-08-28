@@ -141,7 +141,11 @@ namespace _Game.Scripts.UI {
             _quitButtonTransform.DOAnchorPosX(buttonVisibleXAnchor, buttonTweenDuration)
                 .SetEase(Ease.OutBounce)
                 .SetLink(startButton.gameObject)
-                .OnComplete(EnableButtons);
+                .OnComplete(() => {
+                    EnableButtons();
+                    UtilsClass.EnableUIActionMap();
+                    UtilsClass.UpdateCursorState(true);
+                });
         }
 
         #endregion

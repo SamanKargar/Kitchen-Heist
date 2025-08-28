@@ -17,6 +17,10 @@ namespace _Game.Scripts.Managers {
             UtilsClass.UpdateCursorState(false);
         }
 
+        private void Start() {
+            Time.timeScale = 1f;
+        }
+
         private void OnEnable() {
             GameEventsManager.Instance.BehaviorEvents.OnTargetFoundEvent += BehaviorEvents_OnTargetFoundEvent;
         }

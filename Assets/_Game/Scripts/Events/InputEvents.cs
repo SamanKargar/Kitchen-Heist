@@ -10,6 +10,10 @@ namespace _Game.Scripts.Events {
 
         public event Action OnJumpActionEvent;
 
+        public event Action OnPauseActionEvent;
+
+        public event Action OnCancelActionEvent;
+
         public void OnMoveAction(Vector2 inputValue) {
             OnMoveActionEvent?.Invoke(inputValue);
         }
@@ -24,6 +28,14 @@ namespace _Game.Scripts.Events {
 
         public void OnJumpAction() {
             OnJumpActionEvent?.Invoke();
+        }
+
+        public void OnPauseAction() {
+            OnPauseActionEvent?.Invoke();
+        }
+
+        public void OnCancelAction() {
+            OnCancelActionEvent?.Invoke();
         }
     }
 }

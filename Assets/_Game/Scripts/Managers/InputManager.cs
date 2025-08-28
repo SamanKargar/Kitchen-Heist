@@ -52,6 +52,12 @@ namespace _Game.Scripts.Managers {
             }
         }
 
+        public void OnPause(InputAction.CallbackContext context) {
+            if (context.performed) {
+                GameEventsManager.Instance.InputEvents.OnPauseAction();
+            }
+        }
+
         #endregion
 
         #region - UI Action Map -
@@ -65,7 +71,9 @@ namespace _Game.Scripts.Managers {
         }
 
         public void OnCancel(InputAction.CallbackContext context) {
-            
+            if (context.performed) {
+                GameEventsManager.Instance.InputEvents.OnCancelAction();
+            }
         }
 
         public void OnPoint(InputAction.CallbackContext context) {

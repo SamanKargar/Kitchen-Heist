@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using _Game.Scripts.Managers;
 using _Game.Scripts.Utils;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace _Game.Scripts.UI {
@@ -18,12 +20,29 @@ namespace _Game.Scripts.UI {
         [SerializeField] private Button mainMenuButton;
         [SerializeField] private Button quitButton;
 
+        [Space(6)] [Header("Animation")] [Space(6)]
+        
         [SerializeField] private float containerVisibleYAnchor;
         [SerializeField] private float containerHiddenYAnchor = -800f;
         [SerializeField] private float animationDuration = 0.35f;
+        [SerializeField] private float buttonScaleTweenDuration = 0.35f;
+        [SerializeField] private float buttonHorizontalTweenAmount = 5f;
 
-        private RectTransform containerRectTransform;
         private Tween _containerTween;
+        private RectTransform containerRectTransform;
+        private RectTransform _startButtonTransform;
+        private RectTransform _levelsButtonTransform;
+        private RectTransform _settingsButtonTransform;
+        private RectTransform _quitButtonTransform;
+        
+        private EventTrigger _startButtonTrigger;
+        private EventTrigger _levelsButtonTrigger;
+        private EventTrigger _settingsButtonTrigger;
+        private EventTrigger _quitButtonTrigger;
+
+        private readonly Dictionary<GameObject, Tween> _moveTweens = new Dictionary<GameObject, Tween>();
+        private readonly Dictionary<GameObject, Tween> _scaleTweens = new Dictionary<GameObject, Tween>();
+        private readonly Dictionary<GameObject, Vector2> _originalAnchoredPos = new Dictionary<GameObject, Vector2>();
 
         private void Awake() {
             containerRectTransform = containerObject.GetComponent<RectTransform>();
@@ -62,6 +81,7 @@ namespace _Game.Scripts.UI {
         }
 
         private void ShowUI(bool didWin) {
+            Time.timeScale = 0f;
             rootObject.SetActive(true);
 
             if (didWin) {
@@ -75,20 +95,76 @@ namespace _Game.Scripts.UI {
                 restartButton.gameObject.SetActive(true);
             }
             
-            UtilsClass.ExecuteAfterDelay(() => {
-                _containerTween?.Kill();
-                _containerTween = containerRectTransform.DOAnchorPosY(containerVisibleYAnchor, animationDuration)
-                    .SetEase(Ease.OutBounce)
-                    .SetLink(containerObject); 
-            }, 0.25f);
+            _containerTween?.Kill();
+            _containerTween = containerRectTransform.DOAnchorPosY(containerVisibleYAnchor, animationDuration)
+                .SetEase(Ease.OutBounce)
+                .SetUpdate(true)
+                .SetLink(containerObject);
         }
 
         private void HideUI(Action onComplete) {
             _containerTween = containerRectTransform.DOAnchorPosY(containerHiddenYAnchor, animationDuration)
                 .SetEase(Ease.OutBounce)
+                .SetUpdate(true)
                 .SetLink(containerObject)
                 .OnComplete(onComplete.Invoke);
         }
+        
+        #region - Button Hover -
+
+        private void CacheOriginalPos(GameObject button, RectTransform rect) {
+            if (!_originalAnchoredPos.ContainsKey(button)) {
+                _originalAnchoredPos[button] = rect.anchoredPosition;
+            }
+        }
+
+        public void OnHoverEnter(GameObject button) {
+            RectTransform rect = button.GetComponent<RectTransform>();
+            CacheOriginalPos(button, rect);
+
+            if (_moveTweens.TryGetValue(button, out Tween moveTween)) moveTween.Kill();
+            if (_scaleTweens.TryGetValue(button, out Tween scaleTween)) scaleTween.Kill();
+
+            _moveTweens[button] = rect.DOAnchorPosX(
+                    _originalAnchoredPos[button].x + buttonHorizontalTweenAmount,
+                    buttonScaleTweenDuration)
+                .SetEase(Ease.OutQuad)
+                .SetUpdate(true)
+                .SetLink(button);
+
+            _scaleTweens[button] = rect.DOScale(
+                    Vector3.one * 1.125f,
+                    buttonScaleTweenDuration)
+                .SetEase(Ease.OutQuad)
+                .SetUpdate(true)
+                .SetLink(button);
+        }
+
+        public void OnHoverExit(GameObject button) {
+            RectTransform rect = button.GetComponent<RectTransform>();
+            CacheOriginalPos(button, rect);
+
+            if (_moveTweens.TryGetValue(button, out Tween moveTween)) moveTween.Kill();
+            if (_scaleTweens.TryGetValue(button, out Tween scaleTween)) scaleTween.Kill();
+
+            _moveTweens[button] = rect.DOAnchorPosX(
+                    _originalAnchoredPos[button].x,
+                    buttonScaleTweenDuration)
+                .SetEase(Ease.OutQuad)
+                .SetUpdate(true)
+                .SetLink(button);
+
+            _scaleTweens[button] = rect.DOScale(
+                    Vector3.one,
+                    buttonScaleTweenDuration)
+                .SetEase(Ease.OutQuad)
+                .SetUpdate(true)
+                .SetLink(button);
+        }
+
+        #endregion
+
+        #region - Button Clicks -
 
         private void OnClickRestartButton() {
             HideUI(() => Loader.Load(Loader.Scene.PrototypingScene));
@@ -107,5 +183,7 @@ namespace _Game.Scripts.UI {
         private void OnClickQuitButton() {
             HideUI(Application.Quit);
         }
+
+        #endregion
     }
 }

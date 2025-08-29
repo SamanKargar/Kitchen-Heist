@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using _Game.Scripts.Managers;
 using _Game.Scripts.Utils;
 using DG.Tweening;
 using UnityEngine;
@@ -16,6 +18,10 @@ namespace _Game.Scripts.UI {
         [SerializeField] private Button settingsButton;
         [SerializeField] private Button quitButton;
         [SerializeField] private Button backButton;
+        [SerializeField] private Toggle fullscreenToggle;
+        [SerializeField] private Slider masterVolumeSlider;
+        [SerializeField] private Slider musicVolumeSlider;
+        [SerializeField] private Slider sfxVolumeSlider;
 
         [Space(6)] [Header("Animation")] [Space(6)]
         [SerializeField] private float headerVisibleYAnchor = -130f;
@@ -30,20 +36,28 @@ namespace _Game.Scripts.UI {
         [SerializeField] private float buttonHorizontalTweenAmount = 5f;
 
         private CanvasGroup _canvasGroup;
+        private GameObject _currentlyHoveredButton;
+        private Coroutine _exitSoundCoroutine;
         
         private RectTransform _startButtonTransform;
         private RectTransform _levelsButtonTransform;
         private RectTransform _settingsButtonTransform;
         private RectTransform _quitButtonTransform;
+        private RectTransform _backButtonTransform;
         
         private EventTrigger _startButtonTrigger;
         private EventTrigger _levelsButtonTrigger;
         private EventTrigger _settingsButtonTrigger;
         private EventTrigger _quitButtonTrigger;
+        private EventTrigger _backButtonTrigger;
 
         private readonly Dictionary<GameObject, Tween> _moveTweens = new Dictionary<GameObject, Tween>();
         private readonly Dictionary<GameObject, Tween> _scaleTweens = new Dictionary<GameObject, Tween>();
         private readonly Dictionary<GameObject, Vector2> _originalAnchoredPos = new Dictionary<GameObject, Vector2>();
+        
+        private float _lastSliderSoundTime = -1f;
+        
+        private const float SLIDER_SOUND_COOLDOWN = 0.2f;
 
         private void Awake() {
             _canvasGroup = GetComponent<CanvasGroup>();
@@ -51,11 +65,13 @@ namespace _Game.Scripts.UI {
             _levelsButtonTransform = levelsButton.GetComponent<RectTransform>();
             _settingsButtonTransform = settingsButton.GetComponent<RectTransform>();
             _quitButtonTransform = quitButton.GetComponent<RectTransform>();
+            _backButtonTransform = backButton.GetComponent<RectTransform>();
 
             _startButtonTrigger = startButton.GetComponent<EventTrigger>();
             _levelsButtonTrigger = levelsButton.GetComponent<EventTrigger>();
             _settingsButtonTrigger = settingsButton.GetComponent<EventTrigger>();
             _quitButtonTrigger = quitButton.GetComponent<EventTrigger>();
+            _backButtonTrigger = backButton.GetComponent<EventTrigger>();
 
             _canvasGroup.alpha = 0f;
             headerObject.anchoredPosition = new Vector2(headerObject.anchoredPosition.x, headerHiddenYAnchor);
@@ -73,6 +89,11 @@ namespace _Game.Scripts.UI {
             settingsButton.onClick.AddListener(OnSettingsButtonClick);
             quitButton.onClick.AddListener(OnQuitButtonClick);
             backButton.onClick.AddListener(OnBackButtonClick);
+            
+            fullscreenToggle.onValueChanged.AddListener(_ => GameEventsManager.Instance.UIEvents.OnButtonClick());
+            masterVolumeSlider.onValueChanged.AddListener(OnSliderValueChanged);
+            musicVolumeSlider.onValueChanged.AddListener(OnSliderValueChanged);
+            sfxVolumeSlider.onValueChanged.AddListener(OnSliderValueChanged);
         }
 
         private void OnDisable() {
@@ -100,6 +121,7 @@ namespace _Game.Scripts.UI {
                 .SetLink(startButton.gameObject)
                 .OnComplete(() => {
                     UtilsClass.UpdateCursorState(true);
+                    EnableButtons();
                 });
         }
 
@@ -107,6 +129,13 @@ namespace _Game.Scripts.UI {
             settingsMenu.DOAnchorPosX(buttonHiddenXAnchor, buttonTweenDuration)
                 .SetEase(Ease.OutBounce)
                 .SetLink(startButton.gameObject);
+        }
+        
+        private void OnSliderValueChanged(float value) {
+            if (Time.unscaledTime - _lastSliderSoundTime >= SLIDER_SOUND_COOLDOWN) {
+                _lastSliderSoundTime = Time.unscaledTime;
+                GameEventsManager.Instance.UIEvents.OnSliderValueChange();
+            }
         }
 
         #region - Button State -
@@ -116,11 +145,13 @@ namespace _Game.Scripts.UI {
             levelsButton.enabled = false;
             settingsButton.enabled = false;
             quitButton.enabled = false;
+            backButton.enabled = false;
 
             _startButtonTrigger.enabled = false;
             _levelsButtonTrigger.enabled = false;
             _settingsButtonTrigger.enabled = false;
             _quitButtonTrigger.enabled = false;
+            _backButtonTrigger.enabled = false;
         }
         
         private void EnableButtons() {
@@ -128,11 +159,13 @@ namespace _Game.Scripts.UI {
             levelsButton.enabled = true;
             settingsButton.enabled = true;
             quitButton.enabled = true;
+            backButton.enabled = true;
             
             _startButtonTrigger.enabled = true;
             _levelsButtonTrigger.enabled = true;
             _settingsButtonTrigger.enabled = true;
             _quitButtonTrigger.enabled = true;
+            _backButtonTrigger.enabled = true;
         }
         
         private void ResetButtonState(RectTransform rect, GameObject button) {
@@ -163,6 +196,7 @@ namespace _Game.Scripts.UI {
             ResetButtonState(_settingsButtonTransform, settingsButton.gameObject);
             ResetButtonState(_levelsButtonTransform, levelsButton.gameObject);
             ResetButtonState(_startButtonTransform, startButton.gameObject);
+            ResetButtonState(_backButtonTransform, backButton.gameObject);
 
             _quitButtonTransform.DOAnchorPosX(buttonHiddenXAnchor, buttonTweenDuration)
                 .SetEase(Ease.OutBounce)
@@ -234,6 +268,13 @@ namespace _Game.Scripts.UI {
         }
 
         public void OnHoverEnter(GameObject button) {
+            _currentlyHoveredButton = button;
+            
+            if (_exitSoundCoroutine != null) {
+                StopCoroutine(_exitSoundCoroutine);
+                _exitSoundCoroutine = null;
+            }
+            
             RectTransform rect = button.GetComponent<RectTransform>();
             CacheOriginalPos(button, rect);
 
@@ -251,6 +292,8 @@ namespace _Game.Scripts.UI {
                     buttonScaleTweenDuration)
                 .SetEase(Ease.OutQuad)
                 .SetLink(button);
+            
+            GameEventsManager.Instance.UIEvents.OnButtonHoverEnter();
         }
 
         public void OnHoverExit(GameObject button) {
@@ -271,6 +314,20 @@ namespace _Game.Scripts.UI {
                     buttonScaleTweenDuration)
                 .SetEase(Ease.OutQuad)
                 .SetLink(button);
+            
+            if (_currentlyHoveredButton == button) {
+                _exitSoundCoroutine = StartCoroutine(PlayExitSoundWithDelay(0.05f, button));
+            }
+        }
+        
+        private IEnumerator PlayExitSoundWithDelay(float delay, GameObject button) {
+            yield return new WaitForSeconds(delay);
+
+            if (_currentlyHoveredButton == button) {
+                GameEventsManager.Instance.UIEvents.OnButtonHoverExit();
+            }
+
+            _exitSoundCoroutine = null;
         }
 
         #endregion
@@ -278,22 +335,32 @@ namespace _Game.Scripts.UI {
         #region - Button Click -
 
         private void OnStartButtonClick() {
-            Loader.Load(Loader.Scene.PrototypingScene);
+            GameEventsManager.Instance.UIEvents.OnButtonClick();
+            UtilsClass.ExecuteAfterDelay(() => {
+                Loader.Load(Loader.Scene.PrototypingScene);
+            }, 0.25f);
         }
 
         private void OnLevelsButtonClick() {
-            Debug.Log("On Levels Button Clicked");
+            GameEventsManager.Instance.UIEvents.OnButtonClick();
+            UtilsClass.ExecuteAfterDelay(() => {
+                Debug.Log("On Levels Button Clicked");
+            }, 0.25f);
         }
 
         private void OnSettingsButtonClick() {
-            AnimateButtonsOutToSettings();
+            GameEventsManager.Instance.UIEvents.OnButtonClick();
+            UtilsClass.ExecuteAfterDelay(AnimateButtonsOutToSettings, 0.25f);
         }
 
         private void OnQuitButtonClick() {
-            Application.Quit();
+            GameEventsManager.Instance.UIEvents.OnButtonClick();
+            UtilsClass.ExecuteAfterDelay(Application.Quit, 0.25f);
         }
 
         private void OnBackButtonClick() {
+            DisableButtons();
+            GameEventsManager.Instance.UIEvents.OnButtonClick();
             UtilsClass.UpdateCursorState(false);
             AnimateButtonsInFromSettings();
         }

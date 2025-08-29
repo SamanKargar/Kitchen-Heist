@@ -23,15 +23,11 @@ namespace _Game.Scripts.UI {
         [SerializeField] private float buttonHorizontalTweenAmount = 5f;
 
         private Tween _containerTween;
-        private RectTransform containerRectTransform;
-        private RectTransform _startButtonTransform;
-        private RectTransform _levelsButtonTransform;
-        private RectTransform _settingsButtonTransform;
-        private RectTransform _quitButtonTransform;
         
-        private EventTrigger _startButtonTrigger;
-        private EventTrigger _levelsButtonTrigger;
+        private RectTransform containerRectTransform;
+        private EventTrigger _resumeButtonTrigger;
         private EventTrigger _settingsButtonTrigger;
+        private EventTrigger _mainMenuButtonTrigger;
         private EventTrigger _quitButtonTrigger;
 
         private readonly Dictionary<GameObject, Tween> _moveTweens = new Dictionary<GameObject, Tween>();
@@ -40,6 +36,10 @@ namespace _Game.Scripts.UI {
 
         private void Awake() {
             containerRectTransform = containerObject.GetComponent<RectTransform>();
+            _resumeButtonTrigger = resumeButton.GetComponent<EventTrigger>();
+            _settingsButtonTrigger = settingsButton.GetComponent<EventTrigger>();
+            _mainMenuButtonTrigger = mainMenuButton.GetComponent<EventTrigger>();
+            _quitButtonTrigger = quitButton.GetComponent<EventTrigger>();
             
             containerRectTransform.anchoredPosition = new Vector2(containerRectTransform.anchoredPosition.x, containerHiddenYAnchor);
             rootObject.SetActive(false);
@@ -75,25 +75,53 @@ namespace _Game.Scripts.UI {
         }
 
         private void ShowUI() {
+            DisableButtons();
+            
             Time.timeScale = 0f;
             rootObject.SetActive(true);
             _containerTween?.Kill();
             _containerTween = containerRectTransform.DOAnchorPosY(containerVisibleYAnchor, animationDuration)
                 .SetEase(Ease.OutBounce)
                 .SetUpdate(true)
-                .SetLink(containerObject); 
+                .SetLink(containerObject)
+                .OnComplete(EnableButtons);
         }
 
         private void HideUI(Action onComplete) {
+            DisableButtons();
+            
             _containerTween = containerRectTransform.DOAnchorPosY(containerHiddenYAnchor, animationDuration)
                 .SetEase(Ease.OutBounce)
                 .SetUpdate(true)
                 .SetLink(containerObject)
                 .OnComplete(() => {
-                    rootObject.SetActive(false);
                     Time.timeScale = 1f;
                     onComplete();
                 });
+        }
+        
+        private void DisableButtons() {
+            resumeButton.enabled = false;
+            settingsButton.enabled = false;
+            mainMenuButton.enabled = false;
+            quitButton.enabled = false;
+
+            _resumeButtonTrigger.enabled = false;
+            _settingsButtonTrigger.enabled = false;
+            _mainMenuButtonTrigger.enabled = false;
+            _quitButtonTrigger.enabled = false;
+        }
+        
+        private void EnableButtons() {
+            resumeButton.enabled = true;
+            settingsButton.enabled = true;
+            mainMenuButton.enabled = true;
+            quitButton.enabled = true;
+
+            _resumeButtonTrigger.enabled = true;
+            _settingsButtonTrigger.enabled = true;
+            _mainMenuButtonTrigger.enabled = true;
+            _quitButtonTrigger.enabled = true;
         }
         
         #region - Button Hover -
@@ -124,6 +152,8 @@ namespace _Game.Scripts.UI {
                 .SetEase(Ease.OutQuad)
                 .SetUpdate(true)
                 .SetLink(button);
+            
+            GameEventsManager.Instance.UIEvents.OnButtonHoverEnter();
         }
 
         public void OnHoverExit(GameObject button) {
@@ -153,22 +183,31 @@ namespace _Game.Scripts.UI {
         #region - Button Click -
 
         private void OnResumeButtonClick() {
+            GameEventsManager.Instance.UIEvents.OnButtonClick();
             HideUI(() => {
+                rootObject.SetActive(false);
                 UtilsClass.EnableGameplayActionMap();
                 UtilsClass.UpdateCursorState(false);
             });
         }
 
         private void OnSettingsButtonClick() {
-            Debug.Log("Open Settings Menu.");
+            GameEventsManager.Instance.UIEvents.OnButtonClick();
+            HideUI(() => {
+                Debug.Log("Open Settings Menu.");
+            });
         }
 
         private void OnMainMenuButtonClick() {
-            Loader.Load(Loader.Scene.MainMenu);
+            GameEventsManager.Instance.UIEvents.OnButtonClick();
+            HideUI(() => {
+                Loader.Load(Loader.Scene.MainMenu);
+            });
         }
 
         private void OnQuitButtonClick() {
-            Application.Quit();
+            GameEventsManager.Instance.UIEvents.OnButtonClick();
+            HideUI(Application.Quit);
         }
 
         #endregion

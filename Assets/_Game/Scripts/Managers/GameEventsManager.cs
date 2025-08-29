@@ -8,6 +8,7 @@ namespace _Game.Scripts.Managers {
         public InputEvents InputEvents;
         public BehaviorEvents BehaviorEvents;
         public GameEvents GameEvents;
+        public UIEvents UIEvents;
         public MiscEvents MiscEvents;
 
         private void Awake() {
@@ -21,6 +22,7 @@ namespace _Game.Scripts.Managers {
             InputEvents = new InputEvents();
             BehaviorEvents = new BehaviorEvents();
             GameEvents = new GameEvents();
+            UIEvents = new UIEvents();
             MiscEvents = new MiscEvents();
         }
     }

@@ -29,15 +29,11 @@ namespace _Game.Scripts.UI {
         [SerializeField] private float buttonHorizontalTweenAmount = 5f;
 
         private Tween _containerTween;
-        private RectTransform containerRectTransform;
-        private RectTransform _startButtonTransform;
-        private RectTransform _levelsButtonTransform;
-        private RectTransform _settingsButtonTransform;
-        private RectTransform _quitButtonTransform;
         
-        private EventTrigger _startButtonTrigger;
-        private EventTrigger _levelsButtonTrigger;
-        private EventTrigger _settingsButtonTrigger;
+        private RectTransform containerRectTransform;
+        private EventTrigger _restartButtonTrigger;
+        private EventTrigger _nextLevelsButtonTrigger;
+        private EventTrigger _mainMenuButtonTrigger;
         private EventTrigger _quitButtonTrigger;
 
         private readonly Dictionary<GameObject, Tween> _moveTweens = new Dictionary<GameObject, Tween>();
@@ -46,6 +42,10 @@ namespace _Game.Scripts.UI {
 
         private void Awake() {
             containerRectTransform = containerObject.GetComponent<RectTransform>();
+            _restartButtonTrigger = restartButton.GetComponent<EventTrigger>();
+            _nextLevelsButtonTrigger = nextLevelButton.GetComponent<EventTrigger>();
+            _mainMenuButtonTrigger = mainMenuButton.GetComponent<EventTrigger>();
+            _quitButtonTrigger = quitButton.GetComponent<EventTrigger>();
 
             containerRectTransform.anchoredPosition = new Vector2(containerRectTransform.anchoredPosition.x, containerHiddenYAnchor);
             rootObject.SetActive(false);
@@ -81,6 +81,8 @@ namespace _Game.Scripts.UI {
         }
 
         private void ShowUI(bool didWin) {
+            DisableButtons();
+            
             Time.timeScale = 0f;
             rootObject.SetActive(true);
 
@@ -99,15 +101,42 @@ namespace _Game.Scripts.UI {
             _containerTween = containerRectTransform.DOAnchorPosY(containerVisibleYAnchor, animationDuration)
                 .SetEase(Ease.OutBounce)
                 .SetUpdate(true)
-                .SetLink(containerObject);
+                .SetLink(containerObject)
+                .OnComplete(EnableButtons);
         }
 
         private void HideUI(Action onComplete) {
+            DisableButtons();
+            
             _containerTween = containerRectTransform.DOAnchorPosY(containerHiddenYAnchor, animationDuration)
                 .SetEase(Ease.OutBounce)
                 .SetUpdate(true)
                 .SetLink(containerObject)
                 .OnComplete(onComplete.Invoke);
+        }
+        
+        private void DisableButtons() {
+            restartButton.enabled = false;
+            nextLevelButton.enabled = false;
+            mainMenuButton.enabled = false;
+            quitButton.enabled = false;
+
+            _restartButtonTrigger.enabled = false;
+            _nextLevelsButtonTrigger.enabled = false;
+            _mainMenuButtonTrigger.enabled = false;
+            _quitButtonTrigger.enabled = false;
+        }
+        
+        private void EnableButtons() {
+            restartButton.enabled = true;
+            nextLevelButton.enabled = true;
+            mainMenuButton.enabled = true;
+            quitButton.enabled = true;
+
+            _restartButtonTrigger.enabled = true;
+            _nextLevelsButtonTrigger.enabled = true;
+            _mainMenuButtonTrigger.enabled = true;
+            _quitButtonTrigger.enabled = true;
         }
         
         #region - Button Hover -
@@ -138,6 +167,8 @@ namespace _Game.Scripts.UI {
                 .SetEase(Ease.OutQuad)
                 .SetUpdate(true)
                 .SetLink(button);
+            
+            GameEventsManager.Instance.UIEvents.OnButtonHoverEnter();
         }
 
         public void OnHoverExit(GameObject button) {
@@ -167,20 +198,24 @@ namespace _Game.Scripts.UI {
         #region - Button Clicks -
 
         private void OnClickRestartButton() {
+            GameEventsManager.Instance.UIEvents.OnButtonClick();
             HideUI(() => Loader.Load(Loader.Scene.PrototypingScene));
         }
 
         private void OnClickNextLevelButton() {
+            GameEventsManager.Instance.UIEvents.OnButtonClick();
             HideUI(() => {
                 Debug.Log("Go Next Level");
             });
         }
 
         private void OnClickMainMenuButton() {
+            GameEventsManager.Instance.UIEvents.OnButtonClick();
             HideUI(() => Loader.Load(Loader.Scene.MainMenu));
         }
 
         private void OnClickQuitButton() {
+            GameEventsManager.Instance.UIEvents.OnButtonClick();
             HideUI(Application.Quit);
         }
 

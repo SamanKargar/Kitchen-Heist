@@ -152,7 +152,7 @@ namespace _Game.Scripts.UI {
         
         private void AnimateButtonsInFromSettings() {
             HideSettingsMenu();
-            AnimateStartButton();
+            UtilsClass.ExecuteAfterDelay(AnimateStartButton, 0.5f);
         }
         
         private void AnimateButtonsOutToSettings() {

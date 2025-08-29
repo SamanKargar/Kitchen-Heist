@@ -11,10 +11,13 @@ namespace _Game.Scripts.UI {
     public class PauseMenuUI : MonoBehaviour {
         [SerializeField] private GameObject rootObject;
         [SerializeField] private GameObject containerObject;
+        [SerializeField] private CanvasGroup settingsMenu;
+        [SerializeField] private CanvasGroup buttonList;
         [SerializeField] private Button resumeButton;
         [SerializeField] private Button settingsButton;
         [SerializeField] private Button mainMenuButton;
         [SerializeField] private Button quitButton;
+        [SerializeField] private Button backButton;
 
         [SerializeField] private float containerVisibleYAnchor;
         [SerializeField] private float containerHiddenYAnchor = -800f;
@@ -24,30 +27,42 @@ namespace _Game.Scripts.UI {
 
         private Tween _containerTween;
         
-        private RectTransform containerRectTransform;
+        private RectTransform _containerRectTransform;
+        private RectTransform _settingsButtonTransform;
+        private RectTransform _backButtonTransform;
+        
         private EventTrigger _resumeButtonTrigger;
         private EventTrigger _settingsButtonTrigger;
         private EventTrigger _mainMenuButtonTrigger;
         private EventTrigger _quitButtonTrigger;
+        private EventTrigger _backButtonTrigger;
 
         private readonly Dictionary<GameObject, Tween> _moveTweens = new Dictionary<GameObject, Tween>();
         private readonly Dictionary<GameObject, Tween> _scaleTweens = new Dictionary<GameObject, Tween>();
         private readonly Dictionary<GameObject, Vector2> _originalAnchoredPos = new Dictionary<GameObject, Vector2>();
 
         private void Awake() {
-            containerRectTransform = containerObject.GetComponent<RectTransform>();
+            _containerRectTransform = containerObject.GetComponent<RectTransform>();
+            _settingsButtonTransform = settingsButton.GetComponent<RectTransform>();
+            _backButtonTransform = backButton.GetComponent<RectTransform>();
+            
             _resumeButtonTrigger = resumeButton.GetComponent<EventTrigger>();
             _settingsButtonTrigger = settingsButton.GetComponent<EventTrigger>();
             _mainMenuButtonTrigger = mainMenuButton.GetComponent<EventTrigger>();
             _quitButtonTrigger = quitButton.GetComponent<EventTrigger>();
+            _backButtonTrigger = backButton.GetComponent<EventTrigger>();
             
-            containerRectTransform.anchoredPosition = new Vector2(containerRectTransform.anchoredPosition.x, containerHiddenYAnchor);
+            _containerRectTransform.anchoredPosition = new Vector2(_containerRectTransform.anchoredPosition.x, containerHiddenYAnchor);
             rootObject.SetActive(false);
+            settingsMenu.gameObject.SetActive(false);
+            settingsMenu.alpha = 0f;
+            buttonList.alpha = 1f;
 
             resumeButton.onClick.AddListener(OnResumeButtonClick);
             settingsButton.onClick.AddListener(OnSettingsButtonClick);
             mainMenuButton.onClick.AddListener(OnMainMenuButtonClick);
             quitButton.onClick.AddListener(OnQuitButtonClick);
+            backButton.onClick.AddListener(OnBackButtonClick);
         }
 
         private void OnEnable() {
@@ -62,6 +77,7 @@ namespace _Game.Scripts.UI {
 
         private void InputEvents_OnCancelActionEvent() {
             HideUI(() => {
+                rootObject.SetActive(false);
                 UtilsClass.EnableGameplayActionMap();
                 UtilsClass.UpdateCursorState(false);
             });
@@ -80,7 +96,7 @@ namespace _Game.Scripts.UI {
             Time.timeScale = 0f;
             rootObject.SetActive(true);
             _containerTween?.Kill();
-            _containerTween = containerRectTransform.DOAnchorPosY(containerVisibleYAnchor, animationDuration)
+            _containerTween = _containerRectTransform.DOAnchorPosY(containerVisibleYAnchor, animationDuration)
                 .SetEase(Ease.OutBounce)
                 .SetUpdate(true)
                 .SetLink(containerObject)
@@ -90,7 +106,7 @@ namespace _Game.Scripts.UI {
         private void HideUI(Action onComplete) {
             DisableButtons();
             
-            _containerTween = containerRectTransform.DOAnchorPosY(containerHiddenYAnchor, animationDuration)
+            _containerTween = _containerRectTransform.DOAnchorPosY(containerHiddenYAnchor, animationDuration)
                 .SetEase(Ease.OutBounce)
                 .SetUpdate(true)
                 .SetLink(containerObject)
@@ -107,11 +123,13 @@ namespace _Game.Scripts.UI {
             settingsButton.enabled = false;
             mainMenuButton.enabled = false;
             quitButton.enabled = false;
+            backButton.enabled = false;
 
             _resumeButtonTrigger.enabled = false;
             _settingsButtonTrigger.enabled = false;
             _mainMenuButtonTrigger.enabled = false;
             _quitButtonTrigger.enabled = false;
+            _backButtonTrigger.enabled = false;
         }
         
         private void EnableButtons() {
@@ -124,6 +142,17 @@ namespace _Game.Scripts.UI {
             _settingsButtonTrigger.enabled = true;
             _mainMenuButtonTrigger.enabled = true;
             _quitButtonTrigger.enabled = true;
+        }
+        
+        private void ResetButtonState(RectTransform rect, GameObject button) {
+            if (_moveTweens.TryGetValue(button, out Tween moveTween)) moveTween.Kill();
+            if (_scaleTweens.TryGetValue(button, out Tween scaleTween)) scaleTween.Kill();
+
+            rect.localScale = Vector3.one;
+
+            if (_originalAnchoredPos.TryGetValue(button, out Vector2 pos)) {
+                rect.anchoredPosition = pos;
+            }
         }
 
         #endregion
@@ -196,10 +225,27 @@ namespace _Game.Scripts.UI {
         }
 
         private void OnSettingsButtonClick() {
+            DisableButtons();
+            ResetButtonState(_settingsButtonTransform, settingsButton.gameObject);
+            
             GameEventsManager.Instance.UIEvents.OnButtonClick();
-            HideUI(() => {
-                Debug.Log("Open Settings Menu.");
-            });
+            settingsMenu.gameObject.SetActive(true);
+            
+            buttonList.DOFade(0f, animationDuration)
+                .SetEase(Ease.Flash)
+                .SetUpdate(true)
+                .SetLink(gameObject)
+                .OnComplete(() => {
+                    buttonList.gameObject.SetActive(false);
+                    settingsMenu.DOFade(1f, animationDuration)
+                        .SetEase(Ease.Flash)
+                        .SetUpdate(true)
+                        .SetLink(gameObject)
+                        .OnComplete(() => {
+                            backButton.enabled = true;
+                            _backButtonTrigger.enabled = true;
+                        });
+                });
         }
 
         private void OnMainMenuButtonClick() {
@@ -212,6 +258,31 @@ namespace _Game.Scripts.UI {
         private void OnQuitButtonClick() {
             GameEventsManager.Instance.UIEvents.OnButtonClick();
             HideUI(Application.Quit);
+        }
+
+        private void OnBackButtonClick() {
+            DisableButtons();
+            ResetButtonState(_backButtonTransform, backButton.gameObject);
+            
+            GameEventsManager.Instance.UIEvents.OnButtonClick();
+            settingsMenu.DOFade(0f, animationDuration)
+                .SetEase(Ease.Flash)
+                .SetUpdate(true)
+                .SetLink(gameObject)
+                .OnComplete(() => {
+                    settingsMenu.gameObject.SetActive(false);
+                    buttonList.gameObject.SetActive(true);
+                    
+                    buttonList.DOFade(1f, animationDuration)
+                        .SetEase(Ease.Flash)
+                        .SetUpdate(true)
+                        .SetLink(gameObject)
+                        .OnComplete(() => {
+                            backButton.enabled = false;
+                            _backButtonTrigger.enabled = false;
+                            EnableButtons();
+                        });
+                });
         }
 
         #endregion

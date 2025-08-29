@@ -1,9 +1,11 @@
-﻿using UnityEditor;
+﻿// Copyright 2025 Cyber Chaos Games. All Rights Reserved.
+
+using UnityEditor;
 using UnityEngine;
 
-namespace BgTools.CastVisualizer
+namespace CCG.CastVisualizer
 {
-    using static BgTools.CastVisualizer.CastVisualizerManager;
+    using static CCG.CastVisualizer.CastVisualizerManager;
 
     public class CastVisualizerEditorWindow : EditorWindow
     {
@@ -25,7 +27,7 @@ namespace BgTools.CastVisualizer
         bool Physics2DCastsFoldout = false;
         bool Physics2DOverlapsFoldout = false;
 
-        [MenuItem("Tools/BG Tools/CastVisualizer", false, 1)]
+        [MenuItem("Tools/CCG-Tools/CastVisualizer", false, 1)]
         static void ShowWindow()
         {
             CastVisualizerEditorWindow window = EditorWindow.GetWindow<CastVisualizerEditorWindow>(false, "CastVisualizer");
@@ -39,23 +41,23 @@ namespace BgTools.CastVisualizer
         {
             castVisualizer = CastVisualizerManager.Instance;
 
-            actvationState = (ActicationState) EditorPrefs.GetInt("BGTools.CastVisualizer.ActiveState", 0);
+            actvationState = (ActicationState) EditorPrefs.GetInt("CCG.CastVisualizer.ActiveState", 0);
 
-            castVisualizer.ShowPhysicsCasts = EditorPrefs.GetBool("BGTools.CastVisualizer.ShowPhysicsCasts", castVisualizer.ShowPhysicsCasts);
-            castVisualizer.ShowPhysics2DCasts = EditorPrefs.GetBool("BGTools.CastVisualizer.ShowPhysics2DCasts", castVisualizer.ShowPhysics2DCasts);
+            castVisualizer.ShowPhysicsCasts = EditorPrefs.GetBool("CCG.CastVisualizer.ShowPhysicsCasts", castVisualizer.ShowPhysicsCasts);
+            castVisualizer.ShowPhysics2DCasts = EditorPrefs.GetBool("CCG.CastVisualizer.ShowPhysics2DCasts", castVisualizer.ShowPhysics2DCasts);
 
-            castVisualizer.ViewStatePhysicsFlag = (ViewStateFlags) EditorPrefs.GetInt("BGTools.CastVisualizer.ViewStatePhysicsFlag", (int)castVisualizer.ViewStatePhysicsFlag);
-            castVisualizer.ViewStatePhysics2DFlag = (ViewStateFlags)EditorPrefs.GetInt("BGTools.CastVisualizer.ViewStatePhysics2DFlag", (int)castVisualizer.ViewStatePhysics2DFlag);
+            castVisualizer.ViewStatePhysicsFlag = (ViewStateFlags) EditorPrefs.GetInt("CCG.CastVisualizer.ViewStatePhysicsFlag", (int)castVisualizer.ViewStatePhysicsFlag);
+            castVisualizer.ViewStatePhysics2DFlag = (ViewStateFlags)EditorPrefs.GetInt("CCG.CastVisualizer.ViewStatePhysics2DFlag", (int)castVisualizer.ViewStatePhysics2DFlag);
 
-            castVisualizer.ShowHits = EditorPrefs.GetBool("BGTools.CastVisualizer.ShowHits", castVisualizer.ShowHits);
-            castVisualizer.CastBodyVisualization = (CastBodyVisuType) EditorPrefs.GetInt("BGTools.CastVisualizer.CastBodyVisuType", 0);
-            castVisualizer.DrawTime = EditorPrefs.GetFloat("BGTools.CastVisualizer.DrawTime", castVisualizer.DrawTime);
+            castVisualizer.ShowHits = EditorPrefs.GetBool("CCG.CastVisualizer.ShowHits", castVisualizer.ShowHits);
+            castVisualizer.CastBodyVisualization = (CastBodyVisuType) EditorPrefs.GetInt("CCG.CastVisualizer.CastBodyVisuType", 0);
+            castVisualizer.DrawTime = EditorPrefs.GetFloat("CCG.CastVisualizer.DrawTime", castVisualizer.DrawTime);
 
-            string htmlColor = $"#{EditorPrefs.GetString("BGTools.CastVisualizer.PhysicsCastColor", ColorUtility.ToHtmlStringRGBA(castVisualizer.PhysicsRayColor))}";
+            string htmlColor = $"#{EditorPrefs.GetString("CCG.CastVisualizer.PhysicsCastColor", ColorUtility.ToHtmlStringRGBA(castVisualizer.PhysicsRayColor))}";
             ColorUtility.TryParseHtmlString(htmlColor, out physicsRayColor);
-            htmlColor = $"#{EditorPrefs.GetString("BGTools.CastVisualizer.Physics2DCastColor", ColorUtility.ToHtmlStringRGBA(castVisualizer.Physics2dRayColor))}";
+            htmlColor = $"#{EditorPrefs.GetString("CCG.CastVisualizer.Physics2DCastColor", ColorUtility.ToHtmlStringRGBA(castVisualizer.Physics2dRayColor))}";
             ColorUtility.TryParseHtmlString(htmlColor, out physics2dRayColor);
-            htmlColor = $"#{EditorPrefs.GetString("BGTools.CastVisualizer.HitColor", ColorUtility.ToHtmlStringRGBA(castVisualizer.HitMarkerColor))}";
+            htmlColor = $"#{EditorPrefs.GetString("CCG.CastVisualizer.HitColor", ColorUtility.ToHtmlStringRGBA(castVisualizer.HitMarkerColor))}";
             ColorUtility.TryParseHtmlString(htmlColor, out hitMarkerColor);
         }
 
@@ -77,7 +79,7 @@ namespace BgTools.CastVisualizer
 
             if (EditorGUI.EndChangeCheck())
             {
-                EditorPrefs.SetInt("BGTools.CastVisualizer.ActiveState", (int) actvationState);
+                EditorPrefs.SetInt("CCG.CastVisualizer.ActiveState", (int) actvationState);
                 switch(actvationState)
                 {
                     case ActicationState.On:
@@ -124,8 +126,8 @@ namespace BgTools.CastVisualizer
             EditorGUILayout.EndToggleGroup();
             if (EditorGUI.EndChangeCheck())
             {
-                EditorPrefs.SetBool("BGTools.CastVisualizer.ShowPhysicsCasts", castVisualizer.ShowPhysicsCasts);
-                EditorPrefs.SetInt("BGTools.CastVisualizer.ViewStatePhysicsFlag", (int)castVisualizer.ViewStatePhysicsFlag);
+                EditorPrefs.SetBool("CCG.CastVisualizer.ShowPhysicsCasts", castVisualizer.ShowPhysicsCasts);
+                EditorPrefs.SetInt("CCG.CastVisualizer.ViewStatePhysicsFlag", (int)castVisualizer.ViewStatePhysicsFlag);
             }
 
             EditorGUI.BeginChangeCheck();
@@ -159,8 +161,8 @@ namespace BgTools.CastVisualizer
             EditorGUILayout.EndToggleGroup();
             if (EditorGUI.EndChangeCheck())
             {
-                EditorPrefs.SetBool("BGTools.CastVisualizer.ShowPhysics2DCasts", castVisualizer.ShowPhysics2DCasts);
-                EditorPrefs.SetInt("BGTools.CastVisualizer.ViewStatePhysics2DFlag", (int)castVisualizer.ViewStatePhysics2DFlag);
+                EditorPrefs.SetBool("CCG.CastVisualizer.ShowPhysics2DCasts", castVisualizer.ShowPhysics2DCasts);
+                EditorPrefs.SetInt("CCG.CastVisualizer.ViewStatePhysics2DFlag", (int)castVisualizer.ViewStatePhysics2DFlag);
             }
             GUILayout.Space(EditorGUIUtility.singleLineHeight);
 
@@ -168,7 +170,7 @@ namespace BgTools.CastVisualizer
             castVisualizer.ShowHits = EditorGUILayout.Toggle("Hits", castVisualizer.ShowHits);
             if (EditorGUI.EndChangeCheck())
             {
-                EditorPrefs.SetBool("BGTools.CastVisualizer.ShowHits", castVisualizer.ShowHits);
+                EditorPrefs.SetBool("CCG.CastVisualizer.ShowHits", castVisualizer.ShowHits);
             }
 
             EditorGUI.indentLevel--;
@@ -187,9 +189,9 @@ namespace BgTools.CastVisualizer
                 castVisualizer.Physics2dRayColor = physics2dRayColor;
                 castVisualizer.HitMarkerColor = hitMarkerColor;
 
-                EditorPrefs.SetString("BGTools.CastVisualizer.PhysicsCastColor", ColorUtility.ToHtmlStringRGBA(castVisualizer.PhysicsRayColor));
-                EditorPrefs.SetString("BGTools.CastVisualizer.Physics2DCastColor", ColorUtility.ToHtmlStringRGBA(castVisualizer.Physics2dRayColor));
-                EditorPrefs.SetString("BGTools.CastVisualizer.HitColor", ColorUtility.ToHtmlStringRGBA(castVisualizer.HitMarkerColor));
+                EditorPrefs.SetString("CCG.CastVisualizer.PhysicsCastColor", ColorUtility.ToHtmlStringRGBA(castVisualizer.PhysicsRayColor));
+                EditorPrefs.SetString("CCG.CastVisualizer.Physics2DCastColor", ColorUtility.ToHtmlStringRGBA(castVisualizer.Physics2dRayColor));
+                EditorPrefs.SetString("CCG.CastVisualizer.HitColor", ColorUtility.ToHtmlStringRGBA(castVisualizer.HitMarkerColor));
             }
 
             EditorGUILayout.Space();
@@ -198,14 +200,14 @@ namespace BgTools.CastVisualizer
             castVisualizer.CastBodyVisualization = (CastVisualizerManager.CastBodyVisuType) EditorGUILayout.EnumPopup("Body visualization", castVisualizer.CastBodyVisualization);
             if (EditorGUI.EndChangeCheck())
             {
-                EditorPrefs.SetInt("BGTools.CastVisualizer.CastBodyVisuType", (int) castVisualizer.CastBodyVisualization);
+                EditorPrefs.SetInt("CCG.CastVisualizer.CastBodyVisuType", (int) castVisualizer.CastBodyVisualization);
             }
             
             EditorGUI.BeginChangeCheck();
             castVisualizer.DrawTime = (int) EditorGUILayout.Slider(new GUIContent("Draw time", "Time to show visualisations in seconds; Min means one frame"), (int) castVisualizer.DrawTime, 0.0f, 10.0f);
             if (EditorGUI.EndChangeCheck())
             {
-                EditorPrefs.SetFloat("BGTools.CastVisualizer.DrawTime", castVisualizer.DrawTime);
+                EditorPrefs.SetFloat("CCG.CastVisualizer.DrawTime", castVisualizer.DrawTime);
             }
 
             EditorGUI.indentLevel--;

@@ -1,17 +1,19 @@
-﻿#if (UNITY_EDITOR) 
+﻿// Copyright 2025 Cyber Chaos Games. All Rights Reserved.
+
+#if (UNITY_EDITOR) 
 
 using UnityEditor;
 using HarmonyLib;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace BgTools.CastVisualizer
+namespace CCG.CastVisualizer
 {
     [InitializeOnLoad]
     public sealed class CastVisualizerManager
     {
         public static readonly float INF_RAY_DRAW_LENGHT = 100000.0f;
-        private static readonly string VISUALISER_GO_NAME = "bgtools_rayvisualizer_root";
+        private static readonly string VISUALISER_GO_NAME = "ccg_rayvisualizer_root";
 
         private Harmony harmony;
 
@@ -111,7 +113,7 @@ namespace BgTools.CastVisualizer
 
             //Harmony.DEBUG = true;
 
-            harmony = new Harmony("com.bgtools.castvisualizer");
+            harmony = new Harmony("com.ccg.castvisualizer");
             
             // Check if necessary
             // SceneManager.sceneLoaded -= OnSceneLoaded;
@@ -120,7 +122,7 @@ namespace BgTools.CastVisualizer
             EditorApplication.playModeStateChanged -= PlaymodeChanged;
             EditorApplication.playModeStateChanged += PlaymodeChanged;
 
-            if (EditorPrefs.GetBool("BGTools.CastVisualizer.ActiveState", false))
+            if (EditorPrefs.GetBool("CCG.CastVisualizer.ActiveState", false))
             {
                 StartVisualizer();
             }
@@ -128,18 +130,18 @@ namespace BgTools.CastVisualizer
 
         private void LoadConfig()
         {
-            ShowPhysicsCasts = EditorPrefs.GetBool("BGTools.CastVisualizer.ShowPhysicsCasts", ShowPhysicsCasts);
-            ShowPhysics2DCasts = EditorPrefs.GetBool("BGTools.CastVisualizer.ShowPhysics2DCasts", ShowPhysics2DCasts);
-            ShowHits = EditorPrefs.GetBool("BGTools.CastVisualizer.ShowHits", ShowHits);
+            ShowPhysicsCasts = EditorPrefs.GetBool("CCG.CastVisualizer.ShowPhysicsCasts", ShowPhysicsCasts);
+            ShowPhysics2DCasts = EditorPrefs.GetBool("CCG.CastVisualizer.ShowPhysics2DCasts", ShowPhysics2DCasts);
+            ShowHits = EditorPrefs.GetBool("CCG.CastVisualizer.ShowHits", ShowHits);
 
-            string htmlColor = $"#{EditorPrefs.GetString("BGTools.CastVisualizer.PhysicsCastColor", ColorUtility.ToHtmlStringRGBA(PhysicsRayColor))}";
+            string htmlColor = $"#{EditorPrefs.GetString("CCG.CastVisualizer.PhysicsCastColor", ColorUtility.ToHtmlStringRGBA(PhysicsRayColor))}";
             ColorUtility.TryParseHtmlString(htmlColor, out physicsRayColor);
-            htmlColor = $"#{EditorPrefs.GetString("BGTools.CastVisualizer.Physics2DCastColor", ColorUtility.ToHtmlStringRGBA(Physics2dRayColor))}";
+            htmlColor = $"#{EditorPrefs.GetString("CCG.CastVisualizer.Physics2DCastColor", ColorUtility.ToHtmlStringRGBA(Physics2dRayColor))}";
             ColorUtility.TryParseHtmlString(htmlColor, out physics2dRayColor);
-            htmlColor = $"#{EditorPrefs.GetString("BGTools.CastVisualizer.HitColor", ColorUtility.ToHtmlStringRGBA(HitMarkerColor))}";
+            htmlColor = $"#{EditorPrefs.GetString("CCG.CastVisualizer.HitColor", ColorUtility.ToHtmlStringRGBA(HitMarkerColor))}";
             ColorUtility.TryParseHtmlString(htmlColor, out hitMarkerColor);
 
-            DrawTime = EditorPrefs.GetFloat("BGTools.CastVisualizer.DrawTime", DrawTime);
+            DrawTime = EditorPrefs.GetFloat("CCG.CastVisualizer.DrawTime", DrawTime);
         }
 
         // private void OnSceneLoaded(Scene scene, LoadSceneMode mode)

@@ -1,10 +1,12 @@
-﻿#if (UNITY_EDITOR) 
+﻿// Copyright 2025 Cyber Chaos Games. All Rights Reserved.
+
+#if (UNITY_EDITOR) 
 
 using HarmonyLib;
 using UnityEditor;
 using UnityEngine;
 
-namespace BgTools.CastVisualizer
+namespace CCG.CastVisualizer
 {
     public enum PhysicsMeshShape
     {

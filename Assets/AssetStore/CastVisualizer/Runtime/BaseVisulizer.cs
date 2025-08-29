@@ -1,11 +1,13 @@
-﻿#if (UNITY_EDITOR)
+﻿// Copyright 2025 Cyber Chaos Games. All Rights Reserved.
+
+#if (UNITY_EDITOR)
 
 using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace BgTools.CastVisualizer
+namespace CCG.CastVisualizer
 {
     [DefaultExecutionOrder(-32000)]
     public abstract class BaseVisulizer<T, U> : MonoBehaviour where T : System.Enum

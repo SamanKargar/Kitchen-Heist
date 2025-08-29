@@ -328,6 +328,7 @@ namespace HierarchyDesigner
         private KeyCode tempToggleLockStateKeyCode;
         private KeyCode tempChangeTagLayerKeyCode;
         private KeyCode tempRenameSelectedGameObjectsKeyCode;
+        private KeyCode tempOpenIconPickerKeyCode;
         private static bool shortcutSettingsHasModifiedChanges = false;
         #endregion
 
@@ -777,6 +778,40 @@ namespace HierarchyDesigner
             GUILayout.Label("PicEase Mini", HD_Common_GUI.MiniBoldLabelLeftStyle);
             GUILayout.Space(4);
             GUILayout.Label("An image editor and screenshot tool.", HD_Common_GUI.RegularLabelLeftStyle);
+            EditorGUILayout.EndVertical();
+            EditorGUILayout.EndHorizontal();
+            #endregion
+
+            GUILayout.Space(10);
+
+            #region Seamless Grass Textures
+            EditorGUILayout.BeginHorizontal();
+            if (GUILayout.Button(string.Empty, HD_Common_GUI.PromotionalSeamlessGrassTexturesMiniStyle))
+            {
+                Application.OpenURL("https://assetstore.unity.com/packages/2d/textures-materials/seamless-grass-textures-328603");
+            }
+            GUILayout.Space(5);
+            EditorGUILayout.BeginVertical();
+            GUILayout.Label("Seamless Grass Textures", HD_Common_GUI.MiniBoldLabelLeftStyle);
+            GUILayout.Space(4);
+            GUILayout.Label("Seamless grass textures, optimized for terrain use.", HD_Common_GUI.RegularLabelLeftStyle);
+            EditorGUILayout.EndVertical();
+            EditorGUILayout.EndHorizontal();
+            #endregion
+
+            GUILayout.Space(10);
+
+            #region Seamless Mud Textures
+            EditorGUILayout.BeginHorizontal();
+            if (GUILayout.Button(string.Empty, HD_Common_GUI.PromotionalSeamlessMudTexturesMiniStyle))
+            {
+                Application.OpenURL("https://assetstore.unity.com/packages/2d/textures-materials/seamless-mud-textures-327770");
+            }
+            GUILayout.Space(5);
+            EditorGUILayout.BeginVertical();
+            GUILayout.Label("Seamless Mud Textures", HD_Common_GUI.MiniBoldLabelLeftStyle);
+            GUILayout.Space(4);
+            GUILayout.Label("Seamless mud textures, optimized for terrain use.", HD_Common_GUI.RegularLabelLeftStyle);
             EditorGUILayout.EndVertical();
             EditorGUILayout.EndHorizontal();
             #endregion
@@ -2682,8 +2717,9 @@ namespace HierarchyDesigner
             EditorGUI.BeginChangeCheck();
             tempToggleGameObjectActiveStateKeyCode = HD_Common_GUI.DrawEnumPopup("Toggle GameObject Active State Key Code", majorShortcutEnumToggleLabelWidth, tempToggleGameObjectActiveStateKeyCode, KeyCode.Mouse2, true, "The key code to toggle the active state of the hovered GameObject or selected GameObjects. This input must be entered within the Hierarchy window, as it is only detected while interacting with the Hierarchy.");
             tempToggleLockStateKeyCode = HD_Common_GUI.DrawEnumPopup("Toggle GameObject Lock State Key Code", majorShortcutEnumToggleLabelWidth, tempToggleLockStateKeyCode, KeyCode.F1, true, "The key code to toggle the lock state of the hovered GameObject or selected GameObjects.\n\nNote: The Hierarchy window must be focused for this to work.");
-            tempChangeTagLayerKeyCode = HD_Common_GUI.DrawEnumPopup("Change Selected Tag, Layer Key Code", majorShortcutEnumToggleLabelWidth, tempChangeTagLayerKeyCode, KeyCode.F2, true, "The key code to change the current tag or layer of a GameObject. Hover over the tag or layer and press the key code to apply\n\nNote: The Hierarchy window must be focused for this to work.");
+            tempChangeTagLayerKeyCode = HD_Common_GUI.DrawEnumPopup("Change Selected Tag, Layer Key Code", majorShortcutEnumToggleLabelWidth, tempChangeTagLayerKeyCode, KeyCode.Mouse0, true, "The key code to change the current tag or layer of a GameObject. Hover over the tag or layer and press the key code to apply\n\nNote: The Hierarchy window must be focused for this to work.");
             tempRenameSelectedGameObjectsKeyCode = HD_Common_GUI.DrawEnumPopup("Rename Selected GameObjects Key Code", majorShortcutEnumToggleLabelWidth, tempRenameSelectedGameObjectsKeyCode, KeyCode.F3, true, "The key code to rename the selected GameObject(s).\n\nNote: The Hierarchy window must be focused for this to work.");
+            tempOpenIconPickerKeyCode = HD_Common_GUI.DrawEnumPopup("Open Icon Picker Key Code", majorShortcutEnumToggleLabelWidth, tempOpenIconPickerKeyCode, KeyCode.Mouse0, true, "Press to open the Icon Picker for the hovered GameObject in the Hierarchy.");
             if (EditorGUI.EndChangeCheck()) { shortcutSettingsHasModifiedChanges = true; }
             EditorGUILayout.EndVertical();
         }
@@ -2740,6 +2776,7 @@ namespace HierarchyDesigner
             HD_Settings_Shortcuts.ToggleLockStateKeyCode = tempToggleLockStateKeyCode;
             HD_Settings_Shortcuts.ChangeTagLayerKeyCode = tempChangeTagLayerKeyCode;
             HD_Settings_Shortcuts.RenameSelectedGameObjectsKeyCode = tempRenameSelectedGameObjectsKeyCode;
+            HD_Settings_Shortcuts.OpenIconPickerKeyCode = tempOpenIconPickerKeyCode;
             HD_Settings_Shortcuts.SaveSettings();
             shortcutSettingsHasModifiedChanges = false;
         }
@@ -2750,6 +2787,7 @@ namespace HierarchyDesigner
             tempToggleLockStateKeyCode = HD_Settings_Shortcuts.ToggleLockStateKeyCode;
             tempChangeTagLayerKeyCode = HD_Settings_Shortcuts.ChangeTagLayerKeyCode;
             tempRenameSelectedGameObjectsKeyCode = HD_Settings_Shortcuts.RenameSelectedGameObjectsKeyCode;
+            tempOpenIconPickerKeyCode = HD_Settings_Shortcuts.OpenIconPickerKeyCode;
         }
         #endregion
 

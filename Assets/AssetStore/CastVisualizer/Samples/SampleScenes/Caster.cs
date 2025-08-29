@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright 2025 Cyber Chaos Games. All Rights Reserved.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,7 +10,7 @@ using UnityEditor;
 using UnityEditorInternal;
 #endif
 
-namespace BgTools.CastVisualizer
+namespace CCG.CastVisualizer
 {
     [ExecuteInEditMode]
     public class Caster : MonoBehaviour
@@ -88,7 +90,6 @@ namespace BgTools.CastVisualizer
 
         public string[] GetRates()   { return new string[] { CastRate.EveryTick.ToString(), CastRate.Once.ToString() }; }
 
-        [Obsolete("Obsolete")]
         private void Awake()
         {
             FirstVisualizationDone = false;
@@ -475,7 +476,6 @@ namespace BgTools.CastVisualizer
             #endregion //Registry
         }
 
-        [Obsolete("Obsolete")]
         private void OnEnable()
         {
             if(methodCalls.Count == 0)

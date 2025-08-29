@@ -14,5 +14,5 @@ AssetOrigin:
   productId: 167951
   packageName: Cast Visualizer
   packageVersion: 1.2.6
-  assetPath: Assets/CastVisualizer/Editor/CastVisualizerEditorWindow.cs
-  uploadId: 676938
+  assetPath: Assets/AssetStore/CastVisualizer/Editor/CastVisualizerEditorWindow.cs
+  uploadId: 781794

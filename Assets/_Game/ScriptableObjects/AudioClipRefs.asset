@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb52493bbc6247b58a466df85c72cc03, type: 3}
   m_Name: AudioClipRefs
   m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.ScriptableObjects.AudioClipRefsSO
-  buttonHoverSound: {fileID: 8300000, guid: cbfff2c1dd382e048872a7da49cc499b, type: 3}
-  buttonClickSound: {fileID: 8300000, guid: 162cfc01302858545a4e8cc1fc265fec, type: 3}
+  buttonHoverSound: {fileID: 8300000, guid: 162cfc01302858545a4e8cc1fc265fec, type: 3}
+  buttonClickSound: {fileID: 8300000, guid: cbfff2c1dd382e048872a7da49cc499b, type: 3}
   sliderSound: {fileID: 8300000, guid: b70093a66fc0fc442841af90d5bdd256, type: 3}

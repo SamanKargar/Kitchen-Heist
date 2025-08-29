@@ -114,7 +114,9 @@ namespace _Game.Scripts.UI {
                 .SetLink(containerObject)
                 .OnComplete(onComplete.Invoke);
         }
-        
+
+        #region - Button State -
+
         private void DisableButtons() {
             restartButton.enabled = false;
             nextLevelButton.enabled = false;
@@ -138,6 +140,8 @@ namespace _Game.Scripts.UI {
             _mainMenuButtonTrigger.enabled = true;
             _quitButtonTrigger.enabled = true;
         }
+
+        #endregion
         
         #region - Button Hover -
 

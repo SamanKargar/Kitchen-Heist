@@ -99,7 +99,9 @@ namespace _Game.Scripts.UI {
                     onComplete();
                 });
         }
-        
+
+        #region - Button State -
+
         private void DisableButtons() {
             resumeButton.enabled = false;
             settingsButton.enabled = false;
@@ -123,6 +125,8 @@ namespace _Game.Scripts.UI {
             _mainMenuButtonTrigger.enabled = true;
             _quitButtonTrigger.enabled = true;
         }
+
+        #endregion
         
         #region - Button Hover -
 

@@ -115,12 +115,14 @@ namespace _Game.Scripts.UI {
                     _originalAnchoredPos[button].x + buttonHorizontalTweenAmount,
                     buttonScaleTweenDuration)
                 .SetEase(Ease.OutQuad)
+                .SetUpdate(true)
                 .SetLink(button);
 
             _scaleTweens[button] = rect.DOScale(
                     Vector3.one * 1.125f,
                     buttonScaleTweenDuration)
                 .SetEase(Ease.OutQuad)
+                .SetUpdate(true)
                 .SetLink(button);
         }
 
@@ -135,12 +137,14 @@ namespace _Game.Scripts.UI {
                     _originalAnchoredPos[button].x,
                     buttonScaleTweenDuration)
                 .SetEase(Ease.OutQuad)
+                .SetUpdate(true)
                 .SetLink(button);
 
             _scaleTweens[button] = rect.DOScale(
                     Vector3.one,
                     buttonScaleTweenDuration)
                 .SetEase(Ease.OutQuad)
+                .SetUpdate(true)
                 .SetLink(button);
         }
 

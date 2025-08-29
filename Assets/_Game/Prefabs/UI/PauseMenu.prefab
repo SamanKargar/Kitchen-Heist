@@ -3561,6 +3561,10 @@ MonoBehaviour:
   mainMenuButton: {fileID: 5886151197142612252}
   quitButton: {fileID: 1704804946679580486}
   backButton: {fileID: 1641893129035058291}
+  fullscreenToggle: {fileID: 2075762627212980802}
+  masterVolumeSlider: {fileID: 412478555033879957}
+  musicVolumeSlider: {fileID: 7926204911710734722}
+  sfxVolumeSlider: {fileID: 93750347370518945}
   containerVisibleYAnchor: 0
   containerHiddenYAnchor: -800
   animationDuration: 0.7
@@ -3787,8 +3791,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5094185712059471636}
-  - {fileID: 3996129149999987212}
   - {fileID: 6794013002614354417}
+  - {fileID: 3996129149999987212}
   m_Father: {fileID: 6588516284162118301}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}

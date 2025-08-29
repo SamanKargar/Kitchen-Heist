@@ -56,7 +56,6 @@ namespace _Game.Scripts.UI {
         private readonly Dictionary<GameObject, Vector2> _originalAnchoredPos = new Dictionary<GameObject, Vector2>();
         
         private float _lastSliderSoundTime = -1f;
-        
         private const float SLIDER_SOUND_COOLDOWN = 0.2f;
 
         private void Awake() {

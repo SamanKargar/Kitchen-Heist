@@ -9,6 +9,8 @@ using UnityEngine.UI;
 
 namespace _Game.Scripts.UI {
     public class PauseMenuUI : MonoBehaviour {
+        [Header("References")] [Space(6)]
+        
         [SerializeField] private GameObject rootObject;
         [SerializeField] private GameObject containerObject;
         [SerializeField] private CanvasGroup settingsMenu;
@@ -18,7 +20,12 @@ namespace _Game.Scripts.UI {
         [SerializeField] private Button mainMenuButton;
         [SerializeField] private Button quitButton;
         [SerializeField] private Button backButton;
+        [SerializeField] private Toggle fullscreenToggle;
+        [SerializeField] private Slider masterVolumeSlider;
+        [SerializeField] private Slider musicVolumeSlider;
+        [SerializeField] private Slider sfxVolumeSlider;
 
+        [Space(6)] [Header("Animation")] [Space(6)]
         [SerializeField] private float containerVisibleYAnchor;
         [SerializeField] private float containerHiddenYAnchor = -800f;
         [SerializeField] private float animationDuration = 0.35f;
@@ -40,6 +47,9 @@ namespace _Game.Scripts.UI {
         private readonly Dictionary<GameObject, Tween> _moveTweens = new Dictionary<GameObject, Tween>();
         private readonly Dictionary<GameObject, Tween> _scaleTweens = new Dictionary<GameObject, Tween>();
         private readonly Dictionary<GameObject, Vector2> _originalAnchoredPos = new Dictionary<GameObject, Vector2>();
+        
+        private float _lastSliderSoundTime = -1f;
+        private const float SLIDER_SOUND_COOLDOWN = 0.2f;
 
         private void Awake() {
             _containerRectTransform = containerObject.GetComponent<RectTransform>();
@@ -63,6 +73,10 @@ namespace _Game.Scripts.UI {
             mainMenuButton.onClick.AddListener(OnMainMenuButtonClick);
             quitButton.onClick.AddListener(OnQuitButtonClick);
             backButton.onClick.AddListener(OnBackButtonClick);
+            fullscreenToggle.onValueChanged.AddListener(_ => GameEventsManager.Instance.UIEvents.OnButtonClick());
+            masterVolumeSlider.onValueChanged.AddListener(OnSliderValueChanged);
+            musicVolumeSlider.onValueChanged.AddListener(OnSliderValueChanged);
+            sfxVolumeSlider.onValueChanged.AddListener(OnSliderValueChanged);
         }
 
         private void OnEnable() {
@@ -114,6 +128,13 @@ namespace _Game.Scripts.UI {
                     Time.timeScale = 1f;
                     onComplete();
                 });
+        }
+        
+        private void OnSliderValueChanged(float value) {
+            if (Time.unscaledTime - _lastSliderSoundTime >= SLIDER_SOUND_COOLDOWN) {
+                _lastSliderSoundTime = Time.unscaledTime;
+                GameEventsManager.Instance.UIEvents.OnSliderValueChange();
+            }
         }
 
         #region - Button State -

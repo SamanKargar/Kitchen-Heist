@@ -10,10 +10,12 @@ namespace _Game.Scripts.UI {
         [Header("References")] [Space(6)]
         [SerializeField] private GameObject rootObject;
         [SerializeField] private RectTransform headerObject;
+        [SerializeField] private RectTransform settingsMenu;
         [SerializeField] private Button startButton;
         [SerializeField] private Button levelsButton;
         [SerializeField] private Button settingsButton;
         [SerializeField] private Button quitButton;
+        [SerializeField] private Button backButton;
 
         [Space(6)] [Header("Animation")] [Space(6)]
         [SerializeField] private float headerVisibleYAnchor = -130f;
@@ -55,22 +57,14 @@ namespace _Game.Scripts.UI {
             _settingsButtonTrigger = settingsButton.GetComponent<EventTrigger>();
             _quitButtonTrigger = quitButton.GetComponent<EventTrigger>();
 
-            startButton.enabled = false;
-            levelsButton.enabled = false;
-            settingsButton.enabled = false;
-            quitButton.enabled = false;
-
-            _startButtonTrigger.enabled = false;
-            _levelsButtonTrigger.enabled = false;
-            _settingsButtonTrigger.enabled = false;
-            _quitButtonTrigger.enabled = false;
-
             _canvasGroup.alpha = 0f;
             headerObject.anchoredPosition = new Vector2(headerObject.anchoredPosition.x, headerHiddenYAnchor);
             _startButtonTransform.anchoredPosition = new Vector2(buttonHiddenXAnchor, _startButtonTransform.anchoredPosition.y);
             _levelsButtonTransform.anchoredPosition = new Vector2(buttonHiddenXAnchor, _levelsButtonTransform.anchoredPosition.y);
             _settingsButtonTransform.anchoredPosition = new Vector2(buttonHiddenXAnchor, _settingsButtonTransform.anchoredPosition.y);
             _quitButtonTransform.anchoredPosition = new Vector2(buttonHiddenXAnchor, _quitButtonTransform.anchoredPosition.y);
+            
+            DisableButtons();
         }
 
         private void OnEnable() {
@@ -78,6 +72,7 @@ namespace _Game.Scripts.UI {
             levelsButton.onClick.AddListener(OnLevelsButtonClick);
             settingsButton.onClick.AddListener(OnSettingsButtonClick);
             quitButton.onClick.AddListener(OnQuitButtonClick);
+            backButton.onClick.AddListener(OnBackButtonClick);
         }
 
         private void OnDisable() {
@@ -93,6 +88,41 @@ namespace _Game.Scripts.UI {
                 .OnComplete(AnimateHeader);
         }
         
+        private void AnimateHeader() {
+            headerObject.DOAnchorPosY(headerVisibleYAnchor, headerTweenDuration)
+                .SetEase(Ease.OutBounce)
+                .OnComplete(AnimateButtonsInFromSettings);
+        }
+        
+        private void ShowSettingsMenu() {
+            settingsMenu.DOAnchorPosX(250f, buttonTweenDuration)
+                .SetEase(Ease.OutBounce)
+                .SetLink(startButton.gameObject)
+                .OnComplete(() => {
+                    UtilsClass.UpdateCursorState(true);
+                });
+        }
+
+        private void HideSettingsMenu() {
+            settingsMenu.DOAnchorPosX(buttonHiddenXAnchor, buttonTweenDuration)
+                .SetEase(Ease.OutBounce)
+                .SetLink(startButton.gameObject);
+        }
+
+        #region - Button State -
+
+        private void DisableButtons() {
+            startButton.enabled = false;
+            levelsButton.enabled = false;
+            settingsButton.enabled = false;
+            quitButton.enabled = false;
+
+            _startButtonTrigger.enabled = false;
+            _levelsButtonTrigger.enabled = false;
+            _settingsButtonTrigger.enabled = false;
+            _quitButtonTrigger.enabled = false;
+        }
+        
         private void EnableButtons() {
             startButton.enabled = true;
             levelsButton.enabled = true;
@@ -104,13 +134,58 @@ namespace _Game.Scripts.UI {
             _settingsButtonTrigger.enabled = true;
             _quitButtonTrigger.enabled = true;
         }
+        
+        private void ResetButtonState(RectTransform rect, GameObject button) {
+            if (_moveTweens.TryGetValue(button, out Tween moveTween)) moveTween.Kill();
+            if (_scaleTweens.TryGetValue(button, out Tween scaleTween)) scaleTween.Kill();
+
+            rect.localScale = Vector3.one;
+
+            if (_originalAnchoredPos.TryGetValue(button, out Vector2 pos)) {
+                rect.anchoredPosition = pos;
+            }
+        }
+
+        #endregion
 
         #region - Button Animation -
+        
+        private void AnimateButtonsInFromSettings() {
+            HideSettingsMenu();
+            AnimateStartButton();
+        }
+        
+        private void AnimateButtonsOutToSettings() {
+            UtilsClass.UpdateCursorState(false);
+            DisableButtons();
+            
+            ResetButtonState(_quitButtonTransform, quitButton.gameObject);
+            ResetButtonState(_settingsButtonTransform, settingsButton.gameObject);
+            ResetButtonState(_levelsButtonTransform, levelsButton.gameObject);
+            ResetButtonState(_startButtonTransform, startButton.gameObject);
 
-        private void AnimateHeader() {
-            headerObject.DOAnchorPosY(headerVisibleYAnchor, headerTweenDuration)
+            _quitButtonTransform.DOAnchorPosX(buttonHiddenXAnchor, buttonTweenDuration)
                 .SetEase(Ease.OutBounce)
-                .OnComplete(AnimateStartButton);
+                .SetLink(quitButton.gameObject);
+
+            UtilsClass.ExecuteAfterDelay(() => {
+                _settingsButtonTransform.DOAnchorPosX(buttonHiddenXAnchor, buttonTweenDuration)
+                    .SetEase(Ease.OutBounce)
+                    .SetLink(settingsButton.gameObject);
+            }, buttonTweenStartTime);
+
+            UtilsClass.ExecuteAfterDelay(() => {
+                _levelsButtonTransform.DOAnchorPosX(buttonHiddenXAnchor, buttonTweenDuration)
+                    .SetEase(Ease.OutBounce)
+                    .SetLink(levelsButton.gameObject);
+            }, buttonTweenStartTime * 2);
+
+            UtilsClass.ExecuteAfterDelay(() => {
+                _startButtonTransform.DOAnchorPosX(buttonHiddenXAnchor, buttonTweenDuration)
+                    .SetEase(Ease.OutBounce)
+                    .SetLink(startButton.gameObject)
+                    .OnComplete(ShowSettingsMenu);
+            }, buttonTweenStartTime * 3);
         }
 
         private void AnimateStartButton() {
@@ -211,11 +286,16 @@ namespace _Game.Scripts.UI {
         }
 
         private void OnSettingsButtonClick() {
-            Debug.Log("On Settings Button Clicked");
+            AnimateButtonsOutToSettings();
         }
 
         private void OnQuitButtonClick() {
             Application.Quit();
+        }
+
+        private void OnBackButtonClick() {
+            UtilsClass.UpdateCursorState(false);
+            AnimateButtonsInFromSettings();
         }
 
         #endregion

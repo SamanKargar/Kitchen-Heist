@@ -12,7 +12,10 @@ namespace _Game.Scripts.UI {
 
         private void Awake() {
             _player = UtilsClass.GetPlayer();
-            counterText.text = _player.GetCollectedBiscuits().ToString();
+        }
+
+        private void Start() {
+            counterText.text = $"{_player.GetCollectedBiscuits().ToString()}/{GameManager.Instance.GetRequiredBiscuits()}";
         }
 
         private void OnEnable() {
@@ -24,7 +27,7 @@ namespace _Game.Scripts.UI {
         }
 
         private void MiscEvents_OnBiscuitPickupEvent() {
-            counterText.text = _player.GetCollectedBiscuits().ToString();
+            counterText.text = $"{_player.GetCollectedBiscuits().ToString()}/{GameManager.Instance.GetRequiredBiscuits()}";
         }
     }
 }

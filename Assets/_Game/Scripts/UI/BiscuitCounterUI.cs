@@ -1,6 +1,4 @@
-﻿using _Game.Scripts.Characters.PlayerCharacter;
-using _Game.Scripts.Managers;
-using _Game.Scripts.Utils;
+﻿using _Game.Scripts.Managers;
 using TMPro;
 using UnityEngine;
 
@@ -8,26 +6,20 @@ namespace _Game.Scripts.UI {
     public class BiscuitCounterUI : MonoBehaviour {
         [SerializeField] private TextMeshProUGUI counterText;
 
-        private Player _player;
-
-        private void Awake() {
-            _player = UtilsClass.GetPlayer();
-        }
-
         private void Start() {
-            counterText.text = $"{_player.GetCollectedBiscuits().ToString()}/{GameManager.Instance.GetRequiredBiscuits()}";
+            counterText.text = $"0/{GameManager.Instance.GetRequiredBiscuits()}";
         }
 
         private void OnEnable() {
-            GameEventsManager.Instance.MiscEvents.OnBiscuitPickupEvent += MiscEvents_OnBiscuitPickupEvent;
+            GameEventsManager.Instance.MiscEvents.OnUpdateBiscuitCounterUIEvent += MiscEvents_OnUpdateBiscuitCounterUIEvent;
         }
 
         private void OnDisable() {
-            GameEventsManager.Instance.MiscEvents.OnBiscuitPickupEvent -= MiscEvents_OnBiscuitPickupEvent;
+            GameEventsManager.Instance.MiscEvents.OnUpdateBiscuitCounterUIEvent -= MiscEvents_OnUpdateBiscuitCounterUIEvent;
         }
 
-        private void MiscEvents_OnBiscuitPickupEvent() {
-            counterText.text = $"{_player.GetCollectedBiscuits().ToString()}/{GameManager.Instance.GetRequiredBiscuits()}";
+        private void MiscEvents_OnUpdateBiscuitCounterUIEvent(int count) {
+            counterText.text = $"{count}/{GameManager.Instance.GetRequiredBiscuits()}";
         }
     }
 }

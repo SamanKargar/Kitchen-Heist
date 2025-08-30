@@ -8,5 +8,10 @@ namespace _Game.Scripts.ScriptableObjects {
         public AudioClip buttonHoverSound;
         public AudioClip buttonClickSound;
         public AudioClip sliderSound;
+
+        [Space(6)] [Header("Gameplay Sounds")] [Space(6)]
+        
+        public AudioClip[] footstepSound;
+        public AudioClip pickupSound;
     }
 }

@@ -94,12 +94,10 @@ namespace _Game.Scripts.Characters.PlayerCharacter {
 
         #region - Biscuit -
 
-        public int GetCollectedBiscuits() {
-            return _collectedBiscuits;
-        }
-
         private void MiscEvents_OnBiscuitPickupEvent() {
             _collectedBiscuits++;
+            GameEventsManager.Instance.MiscEvents.OnUpdateBiscuitCounterUI(_collectedBiscuits);
+            
             if (_collectedBiscuits >= GameManager.Instance.GetRequiredBiscuits()) {
                 _collectedBiscuits = GameManager.Instance.GetRequiredBiscuits();
                 GameEventsManager.Instance.GameEvents.OnGameWon();

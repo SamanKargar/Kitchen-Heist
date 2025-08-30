@@ -524,6 +524,7 @@ GameObject:
   - component: {fileID: 1911233875834994713}
   - component: {fileID: 9168909596098677607}
   - component: {fileID: 8801378035548986937}
+  - component: {fileID: 594403444814145779}
   m_Layer: 0
   m_Name: AICharacter
   m_TagString: Untagged
@@ -645,6 +646,19 @@ MonoBehaviour:
   occlusionLayer:
     serializedVersion: 2
     m_Bits: 1
+--- !u!114 &594403444814145779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4523124170169509903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffe9d71198254cafafb8ed0fd97d5eaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Characters.AICharacter.AISounds
+  footstepsTimerMax: 0.425
 --- !u!1 &4608986724412256124
 GameObject:
   m_ObjectHideFlags: 0

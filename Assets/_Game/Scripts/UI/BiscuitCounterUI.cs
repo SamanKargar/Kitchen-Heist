@@ -12,6 +12,9 @@ namespace _Game.Scripts.UI {
 
         private void Awake() {
             _player = UtilsClass.GetPlayer();
+        }
+
+        private void Start() {
             counterText.text = $"{_player.GetCollectedBiscuits().ToString()}/{GameManager.Instance.GetRequiredBiscuits()}";
         }
 

@@ -5,6 +5,9 @@ namespace _Game.Scripts.Managers {
     public class GameManager : MonoBehaviour {
         public static GameManager Instance { get; private set; }
 
+        [Tooltip("How many biscuits does this level require to win the game?")]
+        [SerializeField] private int requiredBiscuits = 7;
+
         private void Awake() {
             if (Instance != null) {
                 Debug.LogError($"There's more than one GameManager! {transform} - {Instance}");
@@ -21,6 +24,8 @@ namespace _Game.Scripts.Managers {
             Time.timeScale = 1f;
         }
 
+        #region - Event Handlers -
+
         private void OnEnable() {
             GameEventsManager.Instance.BehaviorEvents.OnTargetFoundEvent += BehaviorEvents_OnTargetFoundEvent;
         }
@@ -31,6 +36,12 @@ namespace _Game.Scripts.Managers {
 
         private void BehaviorEvents_OnTargetFoundEvent() {
             GameEventsManager.Instance.GameEvents.OnGameLost();
+        }
+
+        #endregion
+
+        public int GetRequiredBiscuits() {
+            return requiredBiscuits;
         }
     }
 }

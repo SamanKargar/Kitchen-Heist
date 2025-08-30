@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Restart
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 02b128829ff9cda43a4f6705560b9afe, type: 2}
-  m_sharedMaterial: {fileID: 8070735904970120059, guid: 02b128829ff9cda43a4f6705560b9afe, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f2967a773de5e446871f7023fc16e44, type: 2}
+  m_sharedMaterial: {fileID: -4742296150308765762, guid: 8f2967a773de5e446871f7023fc16e44, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -92,8 +92,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35
-  m_fontSizeBase: 35
+  m_fontSize: 46
+  m_fontSizeBase: 46
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -449,7 +449,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 10}
+  m_AnchoredPosition: {x: 0, y: 7}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4676851729592692851
@@ -482,8 +482,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: You Won
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 02b128829ff9cda43a4f6705560b9afe, type: 2}
-  m_sharedMaterial: {fileID: 8070735904970120059, guid: 02b128829ff9cda43a4f6705560b9afe, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f2967a773de5e446871f7023fc16e44, type: 2}
+  m_sharedMaterial: {fileID: -4742296150308765762, guid: 8f2967a773de5e446871f7023fc16e44, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -507,8 +507,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -785,8 +785,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Main Menu
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 02b128829ff9cda43a4f6705560b9afe, type: 2}
-  m_sharedMaterial: {fileID: 8070735904970120059, guid: 02b128829ff9cda43a4f6705560b9afe, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f2967a773de5e446871f7023fc16e44, type: 2}
+  m_sharedMaterial: {fileID: -4742296150308765762, guid: 8f2967a773de5e446871f7023fc16e44, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -810,8 +810,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35
-  m_fontSizeBase: 35
+  m_fontSize: 46
+  m_fontSizeBase: 46
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -960,8 +960,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Quit
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 02b128829ff9cda43a4f6705560b9afe, type: 2}
-  m_sharedMaterial: {fileID: 8070735904970120059, guid: 02b128829ff9cda43a4f6705560b9afe, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f2967a773de5e446871f7023fc16e44, type: 2}
+  m_sharedMaterial: {fileID: -4742296150308765762, guid: 8f2967a773de5e446871f7023fc16e44, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -985,8 +985,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35
-  m_fontSizeBase: 35
+  m_fontSize: 46
+  m_fontSizeBase: 46
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1568,8 +1568,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Next Level
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 02b128829ff9cda43a4f6705560b9afe, type: 2}
-  m_sharedMaterial: {fileID: 8070735904970120059, guid: 02b128829ff9cda43a4f6705560b9afe, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f2967a773de5e446871f7023fc16e44, type: 2}
+  m_sharedMaterial: {fileID: -4742296150308765762, guid: 8f2967a773de5e446871f7023fc16e44, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1593,8 +1593,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35
-  m_fontSizeBase: 35
+  m_fontSize: 46
+  m_fontSizeBase: 46
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

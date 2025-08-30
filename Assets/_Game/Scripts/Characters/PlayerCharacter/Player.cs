@@ -15,11 +15,8 @@ namespace _Game.Scripts.Characters.PlayerCharacter {
         [SerializeField] private float castOffset = 0.225f;
         [SerializeField] private float animationDuration = 0.75f;
 
-        [Space(6)] [Header("Interaction Settings")] [Space(6)]
-        
-        [SerializeField] private Transform biscuitTransform;
-
         private float _interactionUpdateTimer;
+        private int _collectedBiscuits;
         
         private InteractionComponent _interactionComponent;
         private Tween _fadeTween;
@@ -29,7 +26,6 @@ namespace _Game.Scripts.Characters.PlayerCharacter {
             canvasGroup.alpha = 0f;
             
             interactionPromptRoot.SetActive(false);
-            DisableBiscuitObject();
         }
         
         private void OnEnable() {
@@ -96,22 +92,18 @@ namespace _Game.Scripts.Characters.PlayerCharacter {
 
         #endregion
 
-        #region - Biscuit Pickup -
-        
+        #region - Biscuit -
+
+        public int GetCollectedBiscuits() {
+            return _collectedBiscuits;
+        }
+
         private void MiscEvents_OnBiscuitPickupEvent() {
-            EnableBiscuitObject();
-        }
-
-        private void EnableBiscuitObject() {
-            biscuitTransform.gameObject.SetActive(true);
-        }
-
-        public void DisableBiscuitObject() {
-            biscuitTransform.gameObject.SetActive(false);
-        }
-
-        public bool IsCarryingBiscuit() {
-            return biscuitTransform.gameObject.activeSelf;
+            _collectedBiscuits++;
+            if (_collectedBiscuits >= GameManager.Instance.GetRequiredBiscuits()) {
+                _collectedBiscuits = GameManager.Instance.GetRequiredBiscuits();
+                GameEventsManager.Instance.GameEvents.OnGameWon();
+            }
         }
 
         #endregion

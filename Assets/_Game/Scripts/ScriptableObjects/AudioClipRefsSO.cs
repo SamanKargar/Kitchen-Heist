@@ -5,13 +5,14 @@ namespace _Game.Scripts.ScriptableObjects {
     public class AudioClipRefsSO : ScriptableObject {
         [Header("UI Sounds")] [Space(6)]
         
-        public AudioClip buttonHoverSound;
-        public AudioClip buttonClickSound;
-        public AudioClip sliderSound;
+        public AudioClip ButtonHoverSound;
+        public AudioClip ButtonClickSound;
+        public AudioClip ButtonSlideSound;
+        public AudioClip SliderSound;
 
         [Space(6)] [Header("Gameplay Sounds")] [Space(6)]
         
-        public AudioClip[] footstepSound;
-        public AudioClip pickupSound;
+        public AudioClip[] FootstepSound;
+        public AudioClip PickupSound;
     }
 }

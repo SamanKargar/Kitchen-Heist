@@ -112,6 +112,8 @@ namespace _Game.Scripts.UI {
             headerObject.DOAnchorPosY(headerVisibleYAnchor, headerTweenDuration)
                 .SetEase(Ease.OutBounce)
                 .OnComplete(AnimateButtonsInFromSettings);
+            
+            GameEventsManager.Instance.UIEvents.OnButtonAnimate();
         }
         
         private void ShowSettingsMenu() {
@@ -122,6 +124,8 @@ namespace _Game.Scripts.UI {
                     UtilsClass.UpdateCursorState(true);
                     EnableButtons();
                 });
+            
+            GameEventsManager.Instance.UIEvents.OnButtonAnimate();
         }
 
         private void HideSettingsMenu() {
@@ -200,17 +204,22 @@ namespace _Game.Scripts.UI {
             _quitButtonTransform.DOAnchorPosX(buttonHiddenXAnchor, buttonTweenDuration)
                 .SetEase(Ease.OutBounce)
                 .SetLink(quitButton.gameObject);
+            GameEventsManager.Instance.UIEvents.OnButtonAnimate();
 
             UtilsClass.ExecuteAfterDelay(() => {
                 _settingsButtonTransform.DOAnchorPosX(buttonHiddenXAnchor, buttonTweenDuration)
                     .SetEase(Ease.OutBounce)
                     .SetLink(settingsButton.gameObject);
+                
+                GameEventsManager.Instance.UIEvents.OnButtonAnimate();
             }, buttonTweenStartTime);
 
             UtilsClass.ExecuteAfterDelay(() => {
                 _levelsButtonTransform.DOAnchorPosX(buttonHiddenXAnchor, buttonTweenDuration)
                     .SetEase(Ease.OutBounce)
                     .SetLink(levelsButton.gameObject);
+                
+                GameEventsManager.Instance.UIEvents.OnButtonAnimate();
             }, buttonTweenStartTime * 2);
 
             UtilsClass.ExecuteAfterDelay(() => {
@@ -218,6 +227,8 @@ namespace _Game.Scripts.UI {
                     .SetEase(Ease.OutBounce)
                     .SetLink(startButton.gameObject)
                     .OnComplete(ShowSettingsMenu);
+                
+                GameEventsManager.Instance.UIEvents.OnButtonAnimate();
             }, buttonTweenStartTime * 3);
         }
 
@@ -225,6 +236,8 @@ namespace _Game.Scripts.UI {
             _startButtonTransform.DOAnchorPosX(buttonVisibleXAnchor, buttonTweenDuration)
                 .SetEase(Ease.OutBounce)
                 .SetLink(startButton.gameObject);
+
+            GameEventsManager.Instance.UIEvents.OnButtonAnimate();
             
             UtilsClass.ExecuteAfterDelay(AnimateLevelsButton, buttonTweenStartTime);
         }
@@ -234,6 +247,8 @@ namespace _Game.Scripts.UI {
                 .SetEase(Ease.OutBounce)
                 .SetLink(startButton.gameObject);
             
+            GameEventsManager.Instance.UIEvents.OnButtonAnimate();
+            
             UtilsClass.ExecuteAfterDelay(AnimateSettingsButton, buttonTweenStartTime);
         }
 
@@ -241,6 +256,8 @@ namespace _Game.Scripts.UI {
             _settingsButtonTransform.DOAnchorPosX(buttonVisibleXAnchor, buttonTweenDuration)
                 .SetEase(Ease.OutBounce)
                 .SetLink(startButton.gameObject);
+            
+            GameEventsManager.Instance.UIEvents.OnButtonAnimate();
             
             UtilsClass.ExecuteAfterDelay(AnimateQuitButton, buttonTweenStartTime);
         }
@@ -254,6 +271,8 @@ namespace _Game.Scripts.UI {
                     UtilsClass.EnableUIActionMap();
                     UtilsClass.UpdateCursorState(true);
                 });
+            
+            GameEventsManager.Instance.UIEvents.OnButtonAnimate();
         }
 
         #endregion

@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb52493bbc6247b58a466df85c72cc03, type: 3}
   m_Name: AudioClipRefs
   m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.ScriptableObjects.AudioClipRefsSO
-  buttonHoverSound: {fileID: 8300000, guid: 162cfc01302858545a4e8cc1fc265fec, type: 3}
-  buttonClickSound: {fileID: 8300000, guid: cbfff2c1dd382e048872a7da49cc499b, type: 3}
-  sliderSound: {fileID: 8300000, guid: b70093a66fc0fc442841af90d5bdd256, type: 3}
-  footstepSound:
+  ButtonHoverSound: {fileID: 8300000, guid: 162cfc01302858545a4e8cc1fc265fec, type: 3}
+  ButtonClickSound: {fileID: 8300000, guid: cbfff2c1dd382e048872a7da49cc499b, type: 3}
+  ButtonSlideSound: {fileID: 8300000, guid: 30cff8721b495944ba86cb2e7c814f8e, type: 3}
+  SliderSound: {fileID: 8300000, guid: b70093a66fc0fc442841af90d5bdd256, type: 3}
+  FootstepSound:
   - {fileID: 8300000, guid: 2cffc91a94011744db8c4c4ae3859dc0, type: 3}
   - {fileID: 8300000, guid: a894a287f3883f14ca04534380386128, type: 3}
   - {fileID: 8300000, guid: 57c24d4e54903eb4c9afe4c93f10e4d6, type: 3}
@@ -26,4 +27,4 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 52cbae40c7a63b64e8e5858e7694e435, type: 3}
   - {fileID: 8300000, guid: 03e6b8a378af9d345af2c77dae2a4ab9, type: 3}
   - {fileID: 8300000, guid: e5c4159a205a1f7439e1276a5eadd6b4, type: 3}
-  pickupSound: {fileID: 8300000, guid: 2132b006d783cc64e8f09f257c42cc8d, type: 3}
+  PickupSound: {fileID: 8300000, guid: 2132b006d783cc64e8f09f257c42cc8d, type: 3}

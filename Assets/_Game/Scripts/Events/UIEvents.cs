@@ -9,6 +9,8 @@ namespace _Game.Scripts.Events {
 
         public event Action OnSliderValueChangeEvent;
 
+        public event Action OnButtonAnimateEvent;
+
         public void OnButtonHoverEnter() {
             OnButtonHoverEnterEvent?.Invoke();
         }
@@ -23,6 +25,10 @@ namespace _Game.Scripts.Events {
 
         public void OnSliderValueChange() {
             OnSliderValueChangeEvent?.Invoke();
+        }
+
+        public void OnButtonAnimate() {
+            OnButtonAnimateEvent?.Invoke();
         }
     }
 }

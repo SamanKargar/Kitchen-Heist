@@ -23,6 +23,7 @@ namespace _Game.Scripts.Managers {
             GameEventsManager.Instance.UIEvents.OnButtonHoverExitEvent += UIEvents_OnButtonHoverExitEvent;
             GameEventsManager.Instance.UIEvents.OnButtonClickEvent += UIEvents_OnButtonClickEvent;
             GameEventsManager.Instance.UIEvents.OnSliderValueChangeEvent += UIEvents_OnSliderValueChangeEvent;
+            GameEventsManager.Instance.UIEvents.OnButtonAnimateEvent += UIEvents_OnButtonAnimateEvent;
             
             GameEventsManager.Instance.MiscEvents.OnBiscuitPickupEvent += MiscEvents_OnBiscuitPickupEvent;
         }
@@ -32,32 +33,37 @@ namespace _Game.Scripts.Managers {
             GameEventsManager.Instance.UIEvents.OnButtonHoverExitEvent -= UIEvents_OnButtonHoverExitEvent;
             GameEventsManager.Instance.UIEvents.OnButtonClickEvent -= UIEvents_OnButtonClickEvent;
             GameEventsManager.Instance.UIEvents.OnSliderValueChangeEvent -= UIEvents_OnSliderValueChangeEvent;
+            GameEventsManager.Instance.UIEvents.OnButtonAnimateEvent -= UIEvents_OnButtonAnimateEvent;
             
             GameEventsManager.Instance.MiscEvents.OnBiscuitPickupEvent -= MiscEvents_OnBiscuitPickupEvent;
         }
         
         private void MiscEvents_OnBiscuitPickupEvent() {
-            PlaySound(audioClipRefs.pickupSound, transform.position);
+            PlaySound(audioClipRefs.PickupSound, transform.position);
+        }
+        
+        private void UIEvents_OnButtonAnimateEvent() {
+            PlayUISound(audioClipRefs.ButtonSlideSound);
         }
         
         private void UIEvents_OnSliderValueChangeEvent() {
-            PlayUISound(audioClipRefs.sliderSound);
+            PlaySound(audioClipRefs.SliderSound, transform.position);
         }
         
         private void UIEvents_OnButtonClickEvent() {
-            PlayUISound(audioClipRefs.buttonClickSound);
+            PlayUISound(audioClipRefs.ButtonClickSound);
         }
 
         private void UIEvents_OnButtonHoverExitEvent() {
-            PlayUISound(audioClipRefs.buttonHoverSound);
+            PlayUISound(audioClipRefs.ButtonHoverSound);
         }
 
         private void UIEvents_OnButtonHoverEnterEvent() {
-            PlayUISound(audioClipRefs.buttonHoverSound);
+            PlayUISound(audioClipRefs.ButtonHoverSound);
         }
 
         public void PlayFootstepSound(Vector3 position, float volume = 1f) {
-            PlaySound(audioClipRefs.footstepSound, position, volume);
+            PlaySound(audioClipRefs.FootstepSound, position, volume);
         }
         
         private void PlaySound(AudioClip audioClip, Vector3 position, float volume = 1f) {

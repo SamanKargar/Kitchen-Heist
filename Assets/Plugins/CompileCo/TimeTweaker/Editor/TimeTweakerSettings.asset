@@ -15,4 +15,4 @@ MonoBehaviour:
   minTimeScale: 0
   maxTimeScale: 2
   defaultTimeScale: 1
-  lastKnownTimeScale: 0
+  lastKnownTimeScale: 1

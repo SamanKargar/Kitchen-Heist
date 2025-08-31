@@ -2247,7 +2247,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Characters.PlayerCharacter.PlayerCamera
   fpsCamera: {fileID: 1895325400219391768}
   followTargetTransform: {fileID: 453218997762016550}
-  rotationRate: 1
+  rotationRate: 4
   topClamp: 50
   bottomClamp: -70
 --- !u!1 &5665953206392707592

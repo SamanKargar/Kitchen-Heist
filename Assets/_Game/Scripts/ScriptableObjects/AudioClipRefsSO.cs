@@ -14,5 +14,7 @@ namespace _Game.Scripts.ScriptableObjects {
         
         public AudioClip[] FootstepSound;
         public AudioClip PickupSound;
+        public AudioClip WinSound;
+        public AudioClip LoseSound;
     }
 }

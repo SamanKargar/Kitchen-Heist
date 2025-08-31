@@ -25,6 +25,9 @@ namespace _Game.Scripts.Managers {
             GameEventsManager.Instance.UIEvents.OnSliderValueChangeEvent += UIEvents_OnSliderValueChangeEvent;
             GameEventsManager.Instance.UIEvents.OnButtonAnimateEvent += UIEvents_OnButtonAnimateEvent;
             
+            GameEventsManager.Instance.GameEvents.OnGameWonEvent += GameEvents_OnGameWonEvent;
+            GameEventsManager.Instance.GameEvents.OnGameLostEvent += GameEvents_OnGameLostEvent;
+            
             GameEventsManager.Instance.MiscEvents.OnBiscuitPickupEvent += MiscEvents_OnBiscuitPickupEvent;
         }
 
@@ -35,11 +38,22 @@ namespace _Game.Scripts.Managers {
             GameEventsManager.Instance.UIEvents.OnSliderValueChangeEvent -= UIEvents_OnSliderValueChangeEvent;
             GameEventsManager.Instance.UIEvents.OnButtonAnimateEvent -= UIEvents_OnButtonAnimateEvent;
             
+            GameEventsManager.Instance.GameEvents.OnGameWonEvent -= GameEvents_OnGameWonEvent;
+            GameEventsManager.Instance.GameEvents.OnGameLostEvent -= GameEvents_OnGameLostEvent;
+            
             GameEventsManager.Instance.MiscEvents.OnBiscuitPickupEvent -= MiscEvents_OnBiscuitPickupEvent;
         }
         
         private void MiscEvents_OnBiscuitPickupEvent() {
             PlaySound(audioClipRefs.PickupSound, transform.position);
+        }
+        
+        private void GameEvents_OnGameLostEvent() {
+            PlaySound(audioClipRefs.LoseSound, transform.position);
+        }
+
+        private void GameEvents_OnGameWonEvent() {
+            PlaySound(audioClipRefs.WinSound, transform.position);
         }
         
         private void UIEvents_OnButtonAnimateEvent() {

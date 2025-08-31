@@ -28,3 +28,5 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 03e6b8a378af9d345af2c77dae2a4ab9, type: 3}
   - {fileID: 8300000, guid: e5c4159a205a1f7439e1276a5eadd6b4, type: 3}
   PickupSound: {fileID: 8300000, guid: 2132b006d783cc64e8f09f257c42cc8d, type: 3}
+  WinSound: {fileID: 8300000, guid: aa8dc609002e28746a3797a13eb0adf8, type: 3}
+  LoseSound: {fileID: 8300000, guid: 24d8d2e4d16f790489dbefee5056a261, type: 3}

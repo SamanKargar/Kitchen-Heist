@@ -2208,7 +2208,7 @@ MonoBehaviour:
   interactionPromptRoot: {fileID: 942272079510692821}
   interactionText: {fileID: 5062584872524469858}
   canvasGroup: {fileID: 7858253626648579676}
-  interactionRange: 0.325
+  interactionRange: 0.5
   castOffset: 0.225
   animationDuration: 0.175
 --- !u!114 &8142259545282156038

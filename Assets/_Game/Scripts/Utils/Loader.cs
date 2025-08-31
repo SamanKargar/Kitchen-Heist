@@ -35,6 +35,14 @@ namespace _Game.Scripts.Utils {
                 }
             }
         }
+        
+        public static void ReloadCurrentLevel() {
+            string currentSceneName = SceneManager.GetActiveScene().name;
+
+            if (Enum.TryParse(currentSceneName, out Scene currentScene)) {
+                Load(currentScene);
+            }
+        }
 
         public static void LoaderCallback() {
             if (_onLoaderCallback == null) return;

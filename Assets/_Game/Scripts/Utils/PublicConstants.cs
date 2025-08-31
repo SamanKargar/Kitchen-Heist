@@ -5,6 +5,7 @@
         public const string InteractableLayer = "Interactable";
         public const string PlayerLayer = "Player";
         public const string DefaultLayer = "Default";
+        public const string HidingSpotLayer = "HidingSpot";
 
         public const string SpeedAnimationParameter = "Speed";
 

@@ -203,14 +203,12 @@ namespace _Game.Scripts.UI {
 
         private void OnClickRestartButton() {
             GameEventsManager.Instance.UIEvents.OnButtonClick();
-            HideUI(() => Loader.Load(Loader.Scene.PrototypingScene));
+            HideUI(() => Loader.Load(Loader.Scene.Level1));
         }
 
         private void OnClickNextLevelButton() {
             GameEventsManager.Instance.UIEvents.OnButtonClick();
-            HideUI(() => {
-                Debug.Log("Go Next Level");
-            });
+            HideUI(Loader.LoadNextLevel);
         }
 
         private void OnClickMainMenuButton() {

@@ -5,6 +5,8 @@ using UnityEngine;
 
 namespace _Game.Scripts.Triggers {
     public class HidingSpotTrigger : MonoBehaviour {
+        [SerializeField] private GameObject childObject;
+        
         private void OnTriggerEnter(Collider other) {
             if (other == null || !other.TryGetComponent(out Player player)) return;
             
@@ -12,6 +14,11 @@ namespace _Game.Scripts.Triggers {
             if (defaultLayer != -1) {
                 player.gameObject.layer = defaultLayer;
                 GameEventsManager.Instance.MiscEvents.OnEnterHidingSpot();
+            }
+
+            int hidingSpotLayer = LayerMask.NameToLayer(PublicConstants.HidingSpotLayer);
+            if (hidingSpotLayer != -1) {
+                childObject.layer = hidingSpotLayer;
             }
         }
 
@@ -23,6 +30,8 @@ namespace _Game.Scripts.Triggers {
                 player.gameObject.layer = playerLayer;
                 GameEventsManager.Instance.MiscEvents.OnExitHidingSpot();
             }
+
+            childObject.layer = LayerMask.NameToLayer(PublicConstants.DefaultLayer);
         }
     }
 }

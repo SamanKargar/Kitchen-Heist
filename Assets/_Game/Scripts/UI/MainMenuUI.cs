@@ -324,7 +324,7 @@ namespace _Game.Scripts.UI {
         private void OnStartButtonClick() {
             GameEventsManager.Instance.UIEvents.OnButtonClick();
             UtilsClass.ExecuteAfterDelay(() => {
-                Loader.Load(Loader.Scene.PrototypingScene);
+                Loader.Load(Loader.Scene.Level1);
             }, 0.25f);
         }
 

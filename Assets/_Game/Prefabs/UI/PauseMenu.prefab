@@ -400,7 +400,19 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2978439917718070957}
+        m_TargetAssemblyTypeName: _Game.Scripts.UI.SettingsMenuUI, Assembly-CSharp
+        m_MethodName: SetFullscreen
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 1
 --- !u!1 &768954523829521230
 GameObject:
@@ -642,7 +654,19 @@ MonoBehaviour:
   m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2978439917718070957}
+        m_TargetAssemblyTypeName: _Game.Scripts.UI.SettingsMenuUI, Assembly-CSharp
+        m_MethodName: SetMusicVolume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1987188266995305352
 GameObject:
   m_ObjectHideFlags: 0
@@ -1321,7 +1345,19 @@ MonoBehaviour:
   m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2978439917718070957}
+        m_TargetAssemblyTypeName: _Game.Scripts.UI.SettingsMenuUI, Assembly-CSharp
+        m_MethodName: SetMasterVolume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2870306120764537874
 GameObject:
   m_ObjectHideFlags: 0
@@ -2260,7 +2296,19 @@ MonoBehaviour:
   m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2978439917718070957}
+        m_TargetAssemblyTypeName: _Game.Scripts.UI.SettingsMenuUI, Assembly-CSharp
+        m_MethodName: SetSFXVolume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4060487315804406952
 GameObject:
   m_ObjectHideFlags: 0
@@ -2307,6 +2355,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3996129149999987212}
   - component: {fileID: 7724775627212990061}
+  - component: {fileID: 2978439917718070957}
   m_Layer: 5
   m_Name: SettingsMenu
   m_TagString: Untagged
@@ -2348,6 +2397,22 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &2978439917718070957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4114333642278859663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d0a91fe46e24e09ada60d3b894b9e43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.UI.SettingsMenuUI
+  masterVolumeSlider: {fileID: 412478555033879957}
+  musicVolumeSlider: {fileID: 7926204911710734722}
+  sfxVolumeSlider: {fileID: 93750347370518945}
+  mainAudioMixer: {fileID: 24100000, guid: 3d36ab11a930b014780ff2d65673831f, type: 2}
 --- !u!1 &4175987941324258263
 GameObject:
   m_ObjectHideFlags: 0

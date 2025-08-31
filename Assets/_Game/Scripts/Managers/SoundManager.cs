@@ -1,5 +1,6 @@
 ﻿using _Game.Scripts.ScriptableObjects;
 using UnityEngine;
+using UnityEngine.Audio;
 using Random = UnityEngine.Random;
 
 namespace _Game.Scripts.Managers {
@@ -7,6 +8,7 @@ namespace _Game.Scripts.Managers {
         public static SoundManager Instance { get; private set; }
         
         [SerializeField] private AudioClipRefsSO audioClipRefs;
+        [SerializeField] private AudioMixerGroup sfxMixerGroup;
 
         private void Awake() {
             if (Instance != null) {
@@ -79,13 +81,27 @@ namespace _Game.Scripts.Managers {
         public void PlayFootstepSound(Vector3 position, float volume = 1f) {
             PlaySound(audioClipRefs.FootstepSound, position, volume);
         }
-        
-        private void PlaySound(AudioClip audioClip, Vector3 position, float volume = 1f) {
-            AudioSource.PlayClipAtPoint(audioClip, position, volume);
-        }
 
         private void PlaySound(AudioClip[] audioClips, Vector3 position, float volume = 1f) {
+            if (audioClips == null || audioClips.Length == 0) return;
             PlaySound(audioClips[Random.Range(0, audioClips.Length)], position, volume);
+        }
+        
+        private void PlaySound(AudioClip audioClip, Vector3 position, float volume = 1f) {
+            if (audioClip == null) return;
+
+            GameObject obj = new GameObject("OneShotAudio") {
+                transform = { position = position }
+            };
+
+            AudioSource source = obj.AddComponent<AudioSource>();
+            source.clip = audioClip;
+            source.volume = volume;
+            source.outputAudioMixerGroup = sfxMixerGroup;
+            source.spatialBlend = 1f; // 3D sound
+            source.Play();
+
+            Destroy(obj, audioClip.length);
         }
         
         private void PlayUISound(AudioClip clip, float volume = 1f) {
@@ -96,6 +112,8 @@ namespace _Game.Scripts.Managers {
             source.clip = clip;
             source.volume = volume;
             source.ignoreListenerPause = true;
+            source.outputAudioMixerGroup = sfxMixerGroup;
+            source.spatialBlend = 0f;
             source.Play();
 
             Destroy(obj, clip.length);

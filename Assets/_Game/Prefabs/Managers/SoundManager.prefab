@@ -45,3 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::_Game.Scripts.Managers.SoundManager
   audioClipRefs: {fileID: 11400000, guid: 391c60965d77fca48a021457e83904f3, type: 2}
+  sfxMixerGroup: {fileID: -5282834303907657615, guid: 3d36ab11a930b014780ff2d65673831f, type: 2}
